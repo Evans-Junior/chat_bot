@@ -1,0 +1,72 @@
+{
+  "summit": {
+    "name": "PanAfrican AI Summit",
+    "tagline": "Bridging Africa's AI Divide",
+    "founding_year": 2025,
+    "frequency": "Annual",
+    "next_summit": "2024"
+  },
+  "mission": "To accelerate Africa's AI ecosystem by fostering collaboration, knowledge sharing, and innovation across the continent while ensuring ethical and inclusive AI development.",
+  "core_pillars": [
+    "AI Research & Development",
+    "AI Education & Capacity Building",
+    "AI Policy & Governance",
+    "AI Entrepreneurship & Investment",
+    "AI for Social Good"
+  ],
+  "key_objectives": [
+    "Create a pan-African AI network of researchers, entrepreneurs, and policymakers",
+    "Develop AI solutions addressing Africa's unique challenges",
+    "Establish ethical AI frameworks tailored to African contexts",
+    "Increase AI literacy across educational institutions",
+    "Attract investment for African AI startups"
+  ],
+  "thematic_areas": [
+    "Healthcare AI: Disease prediction, telemedicine, drug discovery",
+    "Agriculture AI: Precision farming, crop disease detection, yield optimization",
+    "Financial AI: Digital banking, fraud detection, micro-finance solutions",
+    "Climate AI: Weather prediction, environmental monitoring, renewable energy optimization",
+    "Education AI: Personalized learning, language processing, skills gap analysis"
+  ],
+  "participation": {
+    "regions": [
+      "North Africa",
+      "West Africa",
+      "East Africa",
+      "Central Africa",
+      "Southern Africa"
+    ],
+    "participants": [
+      "Researchers",
+      "Startups",
+      "Corporates",
+      "Policymakers",
+      "Students",
+      "Investors"
+    ],
+    "languages": ["English", "French", "Arabic", "Swahili", "Portuguese"]
+  },
+  "achievements": [
+    "Launched African AI Ethics Charter (2023)",
+    "Established PanAfrican AI Research Grants",
+    "Created AI Startup Incubation Program",
+    "Developed AI Curriculum Framework for African Universities",
+    "Facilitated 50+ cross-border AI collaborations"
+  ],
+  "upcoming_initiatives": [
+    "African AI Talent Database",
+    "PanAfrican AI Journal",
+    "AI Policy Harmonization Framework",
+    "Women in AI Africa Initiative",
+    "Youth AI Ambassador Program"
+  ],
+  "contact": {
+    "website": "https://panafricanaisummit.africa",
+    "email": "info@panafricanaisummit.africa",
+    "social_media": {
+      "twitter": "@PanAfricanAI",
+      "linkedin": "PanAfrican-AI-Summit",
+      "telegram": "PanAfricanAICommunity"
+    }
+  }
+}
