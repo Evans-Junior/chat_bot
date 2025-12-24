@@ -31,7 +31,7 @@ class GeminiService {
   }
 
   buildContext() {
-    return `You are "PanAI Sage" - an intelligent assistant specialized in the PanAfrican AI Summit.
+    return `You are "Pan African AI Summit Assistant" - an intelligent assistant specialized to prepare you for the next gathering on September 22nd - 23rd, 2026 in Accra.
 
 PERSONALITY: Enthusiastic, knowledgeable, and passionate about AI development in Africa.
 

@@ -4,9 +4,16 @@
     "tagline": "Bridging Africa's AI Divide",
     "founding_year": 2025,
     "frequency": "Annual",
-    "next_summit": "2026"
+    "next_summit": {
+      "dates": "September 22nd - 23rd, 2026",
+      "location": "Accra, Ghana",
+      "venue": "Kempinski Hotel Gold Coast City",
+      "capacity": 1000
+    }
   },
+
   "mission": "To accelerate Africa's AI ecosystem by fostering collaboration, knowledge sharing, and innovation across the continent while ensuring ethical and inclusive AI development.",
+
   "core_pillars": [
     "AI Research & Development",
     "AI Education & Capacity Building",
@@ -14,6 +21,7 @@
     "AI Entrepreneurship & Investment",
     "AI for Social Good"
   ],
+
   "key_objectives": [
     "Create a pan-African AI network of researchers, entrepreneurs, and policymakers",
     "Develop AI solutions addressing Africa's unique challenges",
@@ -21,13 +29,46 @@
     "Increase AI literacy across educational institutions",
     "Attract investment for African AI startups"
   ],
+
   "thematic_areas": [
-    "Healthcare AI: Disease prediction, telemedicine, drug discovery",
-    "Agriculture AI: Precision farming, crop disease detection, yield optimization",
-    "Financial AI: Digital banking, fraud detection, micro-finance solutions",
-    "Climate AI: Weather prediction, environmental monitoring, renewable energy optimization",
-    "Education AI: Personalized learning, language processing, skills gap analysis"
+    {
+      "category": "Healthcare AI",
+      "topics": ["Disease prediction", "Telemedicine", "Drug discovery"]
+    },
+    {
+      "category": "Agriculture AI",
+      "topics": [
+        "Precision farming",
+        "Crop disease detection",
+        "Yield optimization"
+      ]
+    },
+    {
+      "category": "Financial AI",
+      "topics": [
+        "Digital banking",
+        "Fraud detection",
+        "Micro-finance solutions"
+      ]
+    },
+    {
+      "category": "Climate AI",
+      "topics": [
+        "Weather prediction",
+        "Environmental monitoring",
+        "Renewable energy optimization"
+      ]
+    },
+    {
+      "category": "Education AI",
+      "topics": [
+        "Personalized learning",
+        "Language processing",
+        "Skills gap analysis"
+      ]
+    }
   ],
+
   "participation": {
     "regions": [
       "North Africa",
@@ -36,7 +77,7 @@
       "Central Africa",
       "Southern Africa"
     ],
-    "participants": [
+    "participant_types": [
       "Researchers",
       "Startups",
       "Corporates",
@@ -46,13 +87,15 @@
     ],
     "languages": ["English", "French", "Arabic", "Swahili", "Portuguese"]
   },
+
   "achievements": [
-    "Launched African AI Ethics Charter (2023)",
+    "Launched African AI Ethics Charter",
     "Established PanAfrican AI Research Grants",
     "Created AI Startup Incubation Program",
     "Developed AI Curriculum Framework for African Universities",
     "Facilitated 50+ cross-border AI collaborations"
   ],
+
   "upcoming_initiatives": [
     "African AI Talent Database",
     "PanAfrican AI Journal",
@@ -60,6 +103,7 @@
     "Women in AI Africa Initiative",
     "Youth AI Ambassador Program"
   ],
+
   "contact": {
     "website": "https://panafricanaisummit.com",
     "email": "info@panafricanaisummit.africa",
@@ -68,5 +112,313 @@
       "linkedin": "PanAfrican-AI-Summit",
       "telegram": "PanAfricanAICommunity"
     }
+  },
+
+  "ui_config": {
+    "welcome_message": "Welcome to the Pan African AI Summit Assistant! I'm here to help you prepare for our next gathering on September 22nd - 23rd, 2026 in Accra, Ghana. What would you like to explore?",
+
+    "quick_replies": [
+      {
+        "title": "📅 Event Details 2026",
+        "payload": "event_details",
+        "description": "Dates, Venue, Theme",
+        "icon": "calendar"
+      },
+      {
+        "title": "🎟️ Register to Attend",
+        "payload": "registration",
+        "description": "Free registration link",
+        "icon": "ticket"
+      },
+      {
+        "title": "🎤 Speaker Opportunities",
+        "payload": "speakers",
+        "description": "Apply to speak",
+        "icon": "mic"
+      },
+      {
+        "title": "🤝 Sponsor/Partner",
+        "payload": "sponsorship",
+        "description": "View packages",
+        "icon": "handshake"
+      },
+      {
+        "title": "❓ Ask a Question",
+        "payload": "ask_question",
+        "description": "Custom question",
+        "icon": "question"
+      }
+    ],
+
+    "live_support": {
+      "text": "Need human assistance?",
+      "button": "Connect to Human",
+      "action": "email:team@panafricanaisummit.com",
+      "available": true
+    }
+  },
+
+  "event_details": {
+    "intro": "The Pan African AI Summit (PAAIS) is Africa's premier platform for AI innovation and policy. Here are the details for our 2026 edition:",
+
+    "theme": "Scaling Africa's Ethical AI Ecosystem: Youth Empowerment, Policy, Partnerships, and Skill",
+
+    "location": {
+      "venue": "Kempinski Hotel Gold Coast City",
+      "address": "Airport Residential Area, Accra, Ghana",
+      "map_url": "https://maps.google.com/?q=Kempinski+Hotel+Gold+Coast+City+Accra",
+      "airport_distance": "10 minutes from Kotoka International Airport"
+    },
+
+    "dates": {
+      "start": "2026-09-22",
+      "end": "2026-09-23",
+      "duration_days": 2
+    },
+
+    "agenda": {
+      "day1": {
+        "date": "September 22, 2026",
+        "sessions": [
+          "08:00 AM - Registration",
+          "09:00 AM - Opening Ceremony & Keynotes",
+          "11:00 AM - Plenary Sessions",
+          "02:00 PM - Masterclasses",
+          "04:00 PM - AI Pitch Competition",
+          "06:00 PM - Networking Reception"
+        ]
+      },
+      "day2": {
+        "date": "September 23, 2026",
+        "sessions": [
+          "09:00 AM - Keynotes",
+          "10:30 AM - Panel Discussions",
+          "01:00 PM - Ministerial Roundtables",
+          "03:00 PM - Closing Ceremony"
+        ]
+      }
+    },
+
+    "faqs": [
+      {
+        "id": "event_1",
+        "question": "What is the Pan African AI Summit?",
+        "answer": "The Pan African AI Summit (PAAIS) is Africa's premier platform for AI innovation and policy. It brings together global tech leaders, African startups, and policymakers to develop a unified digital strategy for the continent."
+      },
+      {
+        "id": "event_2",
+        "question": "Where and when is the next summit?",
+        "answer": "The second edition of the Pan African AI Summit will take place from 22nd to 23rd September 2026. It will be held at the Kempinski Hotel Gold Coast City in Accra, Ghana."
+      },
+      {
+        "id": "event_3",
+        "question": "What is the theme for the 2026 Summit?",
+        "answer": "The 2026 theme is 'Scaling Africa's Ethical AI Ecosystem: Youth Empowerment, Policy, Partnerships, and Skill.' The event focuses on moving from strategy to actionable implementation across the continent."
+      },
+      {
+        "id": "event_4",
+        "question": "What can I expect from the program?",
+        "answer": "The two-day agenda includes keynote speeches from international AI pioneers, panel and plenary sessions, one-on-one interviews with tech leaders, hands-on masterclasses for technical skill-building, AI pitch competition for startups, and VIP networking sessions."
+      }
+    ],
+
+    "accommodation": [
+      {
+        "name": "Kempinski Hotel Gold Coast City",
+        "type": "Venue Hotel",
+        "distance": "On-site",
+        "contact": "https://www.kempinski.com/accra"
+      },
+      {
+        "name": "Movenpick Ambassador Hotel",
+        "type": "Partner Hotel",
+        "distance": "5 minutes away",
+        "contact": "https://www.movenpick.com/accra"
+      },
+      {
+        "name": "Accra Marriott Hotel",
+        "type": "Recommended",
+        "distance": "10 minutes away",
+        "contact": "https://www.marriott.com/accra"
+      }
+    ]
+  },
+
+  "speakers": {
+    "intro": "We're looking for experts to share their knowledge at the 2026 summit. Here's what you need to know:",
+
+    "focus_areas": [
+      "Ethical AI Implementation",
+      "LLMs for African Languages",
+      "AI in Healthcare for Africa",
+      "AgriTech Solutions",
+      "EduTech Innovations",
+      "Youth AI Education",
+      "AI Policy & Governance",
+      "Startup Success Stories",
+      "Investment in African AI",
+      "Cross-border Collaboration"
+    ],
+
+    "application": {
+      "url": "https://panafricanaisummit.com/call-for-speakers",
+      "requirements": [
+        "Full name and title",
+        "Organization",
+        "Abstract (250 words)",
+        "Bio (150 words)",
+        "Session format preference",
+        "Relevant experience"
+      ]
+    },
+
+    "timeline": {
+      "call_opens": "2026-01-01",
+      "early_deadline": "2026-03-31",
+      "regular_deadline": "2026-06-30",
+      "notifications_start": "2026-04-01",
+      "final_confirmation": "2026-08-01"
+    },
+
+    "faqs": [
+      {
+        "id": "speaker_1",
+        "question": "How can I apply to speak at the 2026 Summit?",
+        "answer": "We are currently looking for experts in Ethical AI, LLMs for African languages, and AI applications in healthcare, agritech, and edutech. You can submit your abstract and bio through the 'Call for Speakers' link at panafricanaisummit.com."
+      },
+      {
+        "id": "speaker_2",
+        "question": "What are the key focus areas for sessions?",
+        "answer": "For 2026, we are specifically prioritising Youth Empowerment, Policy Development, Economic Impact, Partnerships, and Skills Development."
+      }
+    ]
+  },
+
+  "sponsorship": {
+    "intro": "Join us as a sponsor or partner and align your brand with Africa's AI future. Here are the opportunities available:",
+
+    "packages": [
+      {
+        "name": "Gold Partnership",
+        "price": 5000,
+        "currency": "USD",
+        "benefits": [
+          "Keynote speaking slot",
+          "Exhibition booth (3x3m)",
+          "Logo on all marketing materials",
+          "10 VIP tickets",
+          "Featured in press releases"
+        ]
+      },
+      {
+        "name": "Silver Partnership",
+        "price": 2500,
+        "currency": "USD",
+        "benefits": [
+          "Panel speaking slot",
+          "Exhibition booth (2x2m)",
+          "Logo on website and app",
+          "5 VIP tickets"
+        ]
+      },
+      {
+        "name": "Bronze Partnership",
+        "price": 1000,
+        "currency": "USD",
+        "benefits": [
+          "Recognition during sessions",
+          "Logo in program booklet",
+          "3 general admission tickets"
+        ]
+      },
+      {
+        "name": "Food & Beverage Sponsor",
+        "price": 1000,
+        "currency": "USD",
+        "benefits": [
+          "Branding at refreshment stations",
+          "Mention during breaks",
+          "2 VIP tickets"
+        ]
+      }
+    ],
+
+    "contact": {
+      "email": "sponsorships@panafricanaisummit.com",
+      "whatsapp": "+233 XX XXX XXXX",
+      "phone": "+233 XX XXX XXXX",
+      "hours": "Monday-Friday, 9 AM - 5 PM GMT"
+    },
+
+    "documents": {
+      "prospectus": "https://panafricanaisummit.com/sponsorship-prospectus-2026.pdf"
+    },
+
+    "faqs": [
+      {
+        "id": "sponsor_1",
+        "question": "Why should our organisation sponsor PAAIS 2026?",
+        "answer": "This is a high-visibility opportunity to align your brand with the future of African tech. Benefits include direct access to 1,000+ delegates, networking with government ministers and tech giants, and participation in the $1 Billion Ghana-UAE Innovation Hub discussions."
+      },
+      {
+        "id": "sponsor_2",
+        "question": "What sponsorship tiers are available?",
+        "answer": "We offer Gold ($5,000), Silver ($2,500), Bronze ($1,000), and Food & Beverage ($1,000) sponsorship tiers. Custom strategic partnerships are also available."
+      }
+    ]
+  },
+
+  "registration": {
+    "status": "Open",
+    "fee": "Free",
+    "url": "https://panafricanaisummit.com/register-2026",
+    "capacity": 1000,
+    "note": "Free participation to democratize AI knowledge, but registration is required as capacity is limited.",
+
+    "includes": [
+      "Full access to all sessions",
+      "Networking opportunities",
+      "Digital conference materials",
+      "Certificate of participation",
+      "Lunch and refreshments (limited availability)"
+    ],
+
+    "instructions": "Early registration is recommended as seats are limited to 1,000 attendees."
+  },
+
+  "qa": {
+    "welcome": "You can ask me specific questions about:",
+    "topics": [
+      "Event dates and location",
+      "Registration process",
+      "Speaking opportunities",
+      "Sponsorship packages",
+      "Accommodation",
+      "Travel information",
+      "Agenda details"
+    ],
+
+    "examples": [
+      "What are the dates for the summit?",
+      "How do I register?",
+      "Can students attend?",
+      "Is there a virtual option?",
+      "What topics are you looking for speakers?",
+      "How much does sponsorship cost?"
+    ],
+
+    "fallback": "I couldn't find an answer to that question. Would you like to connect to a human representative or explore other topics?",
+
+    "contact_human": {
+      "option": "Connect to Human",
+      "action": "email:team@panafricanaisummit.com"
+    }
+  },
+
+  "metadata": {
+    "version": "2.0",
+    "last_updated": "2025-12-14",
+    "data_source": "PanAfrican AI Summit Official",
+    "language": "en"
   }
 }

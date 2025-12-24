@@ -50,7 +50,7 @@ app.get("/", (req, res) => {
       health: "/health",
       info: "/api/bot/info",
     },
-    documentation: "https://github.com/yourusername/panafrican-ai-bot",
+    documentation: "https://github.com/Evans-Junior/chat_bot",
   });
 });
 
