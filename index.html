@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAAIS Junior - PanAfrican AI Summit Assistant</title>
+    <title>PAAIS Junior - Pan African AI Summit Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -736,11 +736,12 @@
             <div class="header-content">
                 <div class="logo-container">
                     <div class="logo-icon">
-                        <i class="fas fa-brain"></i>
+                      <!--  <i class="fas fa-brain"></i>  Map logo should be nice -->
+                        <img src="./public/img/logo.png" style="width: 40px; height: auto;" />
                     </div>
                     <div class="logo-text">
                         <h1>PAAIS Junior</h1>
-                        <p>PANAFRICAN AI SUMMIT ASSISTANT</p>
+                        <p>PAN AFRICAN AI SUMMIT ASSISTANT</p>
                     </div>
                 </div>
                 
@@ -762,7 +763,7 @@
             <div class="chat-panel">
                 <div class="chat-header">
                     <h2><i class="fas fa-comments"></i> Chat with PAAIS Junior</h2>
-                    <p>Your intelligent assistant for PanAfrican AI Summit 2026. Ask me anything!</p>
+                    <p>Your intelligent assistant for Pan African AI Summit 2026. Ask me anything!</p>
                 </div>
 
                 <div class="chat-messages" id="chatMessages">
@@ -771,7 +772,7 @@
                         <div class="message-bubble">
                             <div class="message-content">
                                 <p>🌟 <strong>Welcome to PAAIS Junior!</strong></p>
-                                <p>I'm your AI assistant for the <strong>PanAfrican AI Summit 2026</strong> happening in Accra, Ghana.</p>
+                                <p>I'm your AI assistant for the <strong>Pan African AI Summit 2026</strong> happening in Accra, Ghana.</p>
                                 <p>I can help you with:</p>
                                 <ul>
                                     <li>📅 Event dates & registration</li>
@@ -798,7 +799,7 @@
                         <textarea 
                             class="chat-input" 
                             id="messageInput" 
-                            placeholder="Ask about PanAfrican AI Summit 2026... (Press Shift+Enter for new line)"
+                            placeholder="Ask about Pan African AI Summit 2026... (Press Shift+Enter for new line)"
                             rows="1"
                             onkeydown="handleKeyDown(event)"
                         ></textarea>
@@ -932,12 +933,12 @@
         <footer class="footer">
             <div class="footer-content">
                 <div class="footer-text">
-                    © 2025 PanAfrican AI Summit. PAAIS Junior AI Assistant v2.0
+                    © 2025 Pan African AI Summit. PAAIS Junior AI Assistant v2.0
                 </div>
                 <div class="footer-links">
-                    <a href="#" class="footer-link" onclick="showNotification('Opening official website...', 'info')">Official Website</a>
-                    <a href="#" class="footer-link" onclick="showNotification('Connecting to support...', 'info')">Contact Support</a>
-                    <a href="#" class="footer-link" onclick="showNotification('Opening privacy policy...', 'info')">Privacy Policy</a>
+                    <a href="https://panafricanaisummit.com" class="footer-link" onclick="showNotification('Opening official website...', 'info')">Official Website</a>
+                    <a href="https://panafricanaisummit.com/about" class="footer-link" onclick="showNotification('Connecting to support...', 'info')">Contact Support</a>
+                    <a href="https://panafricanaisummit.com/privacy-policy" class="footer-link" onclick="showNotification('Opening privacy policy...', 'info')">Privacy Policy</a>
                 </div>
             </div>
         </footer>
@@ -1133,15 +1134,15 @@
         // Generate bot response (simulated)
         async function generateBotResponse(userMessage) {
             const responses = {
-                'date': "📅 The PanAfrican AI Summit 2026 will take place on **September 22-23, 2026** at the Kempinski Hotel Gold Coast City in Accra, Ghana.",
-                'register': "🎟️ Registration for PAAIS 2026 is **FREE** but required due to limited capacity. You can register at: [panafricanaisummit.com/register-2026](https://panafricanaisummit.com/register-2026)",
+                'date': "📅 The Pan African AI Summit 2026 will take place on **September 22-23, 2026** at the Kempinski Hotel Gold Coast City in Accra, Ghana.",
+                'register': "🎟️ Registration for PAAIS 2026 is **FREE** but required due to limited capacity. You can register at: [panafricanaisummit.com/register-2026](https://panafricanaisummit.com/participate)",
                 'theme': "🎯 The 2026 theme is **'Scaling Africa's Ethical AI Ecosystem: Youth Empowerment, Policy, Partnerships, and Skill'** - focusing on actionable implementation.",
-                'speak': "🎤 We're looking for speakers in Ethical AI, African LLMs, Healthcare AI, AgriTech, and EduTech. Apply at: [panafricanaisummit.com/call-for-speakers](https://panafricanaisummit.com/call-for-speakers)",
-                'sponsor': "🤝 Sponsorship packages start at $1,000. Gold Partnership ($5,000) includes keynote speaking slot, exhibition booth, and VIP tickets.",
+                'speak': "🎤 We're looking for speakers in Ethical AI, African LLMs, Healthcare AI, AgriTech, and EduTech. Apply at: [panafricanaisummit.com/call-for-speakers](https://panafricanaisummit.com/speaker-registration)",
+                'sponsor': "🤝 Sponsorship packages start at $1,000. Gold Partnership ($5,000) includes keynote speaking slot, exhibition booth, and VIP tickets.Apply at: [panafricanaisummit.com/call-for-sponsership](https://panafricanaisummit.com/sponsor-registration#contactwithformbuilder-1745219254771)",
                 'venue': "📍 The summit will be at **Kempinski Hotel Gold Coast City** in Accra's Airport Residential Area, just 10 minutes from Kotoka International Airport.",
                 'pillar': "🔬 Our 5 core pillars: **AI Research & Development, AI Education, AI Policy & Governance, AI Entrepreneurship, and AI for Social Good**.",
-                'participate': "👥 The summit welcomes **Researchers, Startups, Corporates, Policymakers, Students, and Investors** from all African regions.",
-                'default': "🤖 I'm PAAIS Junior, your assistant for the PanAfrican AI Summit 2026! For specific information about dates, registration, speaking opportunities, or sponsorship, just ask!"
+                'participate': "👥 The summit welcomes **Researchers, Startups, Corporates, Policymakers, Students, and Investors** from all African regions. You can participate at: [panafricanaisummit.com/register-2026](https://panafricanaisummit.com/participate)",
+                'default': "🤖 I'm PAAIS Junior, your assistant for the Pan African AI Summit 2026! For specific information about dates, registration, speaking opportunities, or sponsorship, just ask!"
             };
             
             const lowerMsg = userMessage.toLowerCase();
@@ -1201,8 +1202,8 @@
         function getBotInfo() {
             addMessage('bot', 
                 `🤖 **PAAIS Junior v2.0**\n\n` +
-                `**Powered by:** Gemini AI & PanAfrican AI Summit API\n` +
-                `**Purpose:** Assistant for PanAfrican AI Summit 2026\n` +
+                `**Powered by:** Gemini AI & Pan African AI Summit API\n` +
+                `**Purpose:** Assistant for Pan African AI Summit 2026\n` +
                 `**Capabilities:**\n` +
                 `• Answer questions about PAAIS 2026\n` +
                 `• Provide registration information\n` +
