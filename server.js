@@ -35,7 +35,7 @@ app.use("/api/bot", botRoutes);
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "healthy",
-    service: "PanAI Sage Bot",
+    service: "PAAIS Junior",
     timestamp: new Date().toISOString(),
   });
 });
@@ -78,8 +78,8 @@ app.listen(PORT, () => {
   
   🌍 Environment: ${process.env.NODE_ENV || "development"}
   📡 Port: ${PORT}
-  🤖 Bot Name: PanAI Sage
-  🎯 Service: PanAfrican AI Summit Assistant
+  🤖 Bot Name: PAAIS Junior
+  🎯 Service: PAAIS Junior
   
   📊 Health Check: http://localhost:${PORT}/health
   💬 Chat Endpoint: http://localhost:${PORT}/api/bot/chat

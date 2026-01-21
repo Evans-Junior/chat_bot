@@ -75,7 +75,7 @@ Now, answer the user's query based on the summit data:`;
           role: "model",
           parts: [
             {
-              text: "Understood! I am PanAI Sage, ready to assist with PanAfrican AI Summit questions.",
+              text: "Understood! I am PAAIS Junior, ready to assist with PanAfrican AI Summit questions.",
             },
           ],
         },
@@ -215,7 +215,7 @@ Now, answer the user's query based on the summit data:`;
       return `📧 For more information, you can visit the official website or contact the organizers at info@panafricanaisummit.africa`;
     }
 
-    return `🤖 Hello! I'm PanAI Sage, your guide to the PanAfrican AI Summit. I'm here to answer questions about the summit's mission, pillars, participation, and initiatives. What would you like to know about? 🌍`;
+    return `🤖 Hello! I'm PAAIS Junior, your guide to the PanAfrican AI Summit. I'm here to answer questions about the summit's mission, pillars, participation, and initiatives. What would you like to know about? 🌍`;
   }
 
   async testConnection() {
