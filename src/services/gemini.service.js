@@ -1,6 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config(); 
 
 // Load summit data
 const summitDataPath = path.join(
