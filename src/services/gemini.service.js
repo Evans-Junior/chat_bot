@@ -516,6 +516,8 @@ class GeminiService {
     // Build formatted speakers list
     let speakersText =
       "\n## 🎤 SUMMIT SPEAKERS (36+ Distinguished Speakers):\n\n";
+    speakersText +=
+      "IMPORTANT: These are the CONFIRMED SPEAKERS for the 2026 summit. When users ask about speakers, provide information from this list.\n\n";
 
     // Group speakers by type for better organization
     const speakersByType = {
@@ -567,6 +569,13 @@ class GeminiService {
 
     return `You are "PAAIS Junior" - the official intelligent assistant for the Pan African AI Summit 2026.
 
+## 🎯 CRITICAL RULES:
+1. **PRIORITIZE SPEAKER INFORMATION:** When users ask about "speakers", "who is speaking", or mention any speaker names, ALWAYS provide information from the speaker list below. DO NOT confuse this with "speaker opportunities" or "call for speakers".
+2. **DISTINGUISH BETWEEN:** 
+   - "Speakers" = the confirmed speakers listed below
+   - "Speaker opportunities" = the call for speakers application (different topic)
+3. If a user asks about a specific speaker (like "Darlington Akogo" or "Hon. Sam George"), provide their detailed profile from the speaker list.
+
 ## SUMMIT OVERVIEW:
 - **Name:** Pan African AI Summit (PAAIS)
 - **Dates:** September 22nd - 23rd, 2026
@@ -586,25 +595,29 @@ To accelerate Africa's AI ecosystem by fostering collaboration, knowledge sharin
 
 ${speakersContext}
 
+## SPEAKER OPPORTUNITIES (Call for Speakers - Different from confirmed speakers):
+- **Purpose:** For those who want to APPLY to speak at future summits
+- **Deadline:** June 30, 2026
+- **Application:** https://panafricanaisummit.com/call-for-speakers
+- **Note:** Only provide this information when users specifically ask about "applying to speak" or "call for speakers"
+
 ## REGISTRATION:
 - **Cost:** FREE (but required due to limited capacity)
 - **Includes:** Full access to sessions, networking, digital materials, certificate
-- **Register at:** [panafricanaisummit.com/register-2026](https://panafricanaisummit.com/participate)
-
-## PARTICIPATION:
-Open to Researchers, Startups, Corporates, Policymakers, Students, and Investors from all African regions.
+- **Register at:** https://panafricanaisummit.com/participate
 
 ## YOUR ROLE:
 1. **Be enthusiastic and helpful** - You're passionate about African AI development
 2. **Provide accurate information** - Always base answers on the summit data above
-3. **Help users find speakers** - You have detailed information about all 36+ speakers
+3. **PRIORITIZE SPEAKER PROFILES** - When users ask about speakers, give details from the speaker list
 4. **Answer questions about:**
-   - Summit dates, location, and venue
-   - Registration process
-   - Speaker information (by name, expertise, country, or company)
-   - Sponsorship opportunities
-   - Thematic areas and agenda
-   - Participation requirements
+   - ✅ Summit dates, location, and venue
+   - ✅ Registration process
+   - ✅ CONFIRMED SPEAKER information (from the list above)
+   - ✅ Sponsorship opportunities
+   - ✅ Thematic areas and agenda
+   - ✅ Participation requirements
+   - ❌ DO NOT confuse "speaker opportunities" with "confirmed speakers"
 5. **Keep responses concise but informative** (2-4 paragraphs max)
 6. **Include relevant links** when available
 7. **Start with appropriate emojis** (🎤 for speakers, 📅 for dates, 🎟️ for registration, etc.)
@@ -615,7 +628,7 @@ Open to Researchers, Startups, Corporates, Policymakers, Students, and Investors
 - End with an engaging question or offer to help further
 - Be friendly, professional, and encouraging
 
-Now, answer the user's question based on ALL the summit data above, including the detailed speaker information:`;
+Now, answer the user's question based on ALL the summit data above, including the detailed speaker information. REMEMBER: When users ask about speakers, provide information from the speaker list above, NOT the call for speakers application!`;
   }
 
   async generateResponse(userMessage, chatHistory = []) {
@@ -637,7 +650,7 @@ Now, answer the user's question based on ALL the summit data above, including th
           role: "model",
           parts: [
             {
-              text: "Understood! I am PAAIS Junior, ready to assist with Pan African AI Summit 2026 questions, including detailed speaker information!",
+              text: "Understood! I am PAAIS Junior, ready to assist with Pan African AI Summit 2026 questions. I have detailed information about all 36+ confirmed speakers. When asked about speakers, I will provide their profiles from the speaker list, not the call for speakers information.",
             },
           ],
         },
@@ -745,22 +758,102 @@ Now, answer the user's question based on ALL the summit data above, including th
   getStaticResponse(userMessage) {
     const lowerMessage = userMessage.toLowerCase();
 
+    // Check for specific speaker names first
+    const speakerNames = [
+      "sam george",
+      "george opare addo",
+      "reuben opata",
+      "arias websterberry",
+      "olivia frimpong kwapong",
+      "darlington akogo",
+      "jason hickey",
+      "maxwell ababio",
+      "andreas horn",
+      "danny manu",
+      "reginald ankrah",
+      "nina korley",
+      "kayode akomolafe",
+      "joseph kweku assan",
+      "paul crafer",
+      "george adjabeng",
+      "tim schneller",
+      "edward aikins",
+      "yaw nsarkoh",
+      "akwasi obeng-adjei",
+      "richard quainoo",
+      "joshua odoi",
+      "emmanuel apetsi",
+      "kobby mensah",
+      "ayo jones",
+      "eugene allotey",
+      "vincent tetteh",
+      "festus asare-yeboah",
+      "g. ayorkor korsah",
+      "titi akinsanmi",
+      "abena nyamesem",
+      "naa adoley azu",
+      "tom-chris emewulu",
+      "bertha akua asare",
+    ];
+
+    // Check if asking about a specific speaker
+    for (const name of speakerNames) {
+      if (lowerMessage.includes(name)) {
+        // Find the speaker
+        const speaker = this.findSpeakerByName(name);
+        if (speaker) {
+          return (
+            `🎤 **${speaker.name}**\n\n` +
+            `**Title:** ${speaker.title}${speaker.company ? ` at ${speaker.company}` : ""}${speaker.institution ? ` at ${speaker.institution}` : ""}\n` +
+            `**Expertise:** ${speaker.expertise.join(", ")}\n` +
+            `**Bio:** ${speaker.bio}\n` +
+            `${speaker.country ? `**Country:** ${speaker.country}\n` : ""}` +
+            `${speaker.profileUrl ? `**Profile:** ${speaker.profileUrl}\n` : ""}` +
+            `${speaker.linkedin ? `**LinkedIn:** ${speaker.linkedin}\n` : ""}\n` +
+            `Would you like to know about other speakers or have any other questions about the summit? 🌟`
+          );
+        }
+      }
+    }
+
+    // Check for general speaker questions
     if (
-      lowerMessage.includes("speaker") ||
-      lowerMessage.includes("who is") ||
-      lowerMessage.includes("speaking")
+      lowerMessage.includes("speaker") &&
+      !lowerMessage.includes("apply") &&
+      !lowerMessage.includes("call")
     ) {
       return `🎤 The Pan African AI Summit 2026 features an incredible lineup of over 36 distinguished speakers! 
 
 **Notable speakers include:**
-- Hon. Sam George - Minister of Communication, Ghana
-- Darlington Akogo - Founder of minoHealth AI & UN AI for Radiology Chair
-- Dr. Jason Hickey - Former Head of Google Research Africa
-- Emmanuel Apetsi - CEO of SISU AI & Exec. Director of OpenAI4Africa
-- Prof. Olivia Frimpong Kwapong - Dean at University of Ghana
-- Titi Akinsanmi - Global Policy Team Lead at Google
+- **Hon. Sam George** - Minister of Communication, Ghana
+- **Darlington Akogo** - Founder of minoHealth AI & UN AI for Radiology Chair
+- **Dr. Jason Hickey** - Former Head of Google Research Africa
+- **Emmanuel Apetsi** - CEO of SISU AI & Exec. Director of OpenAI4Africa
+- **Prof. Olivia Frimpong Kwapong** - Dean at University of Ghana
+- **Titi Akinsanmi** - Global Policy Team Lead at Google
 
-You can ask me about specific speakers by name, expertise, or country! Who would you like to know more about? 🌟`;
+You can ask me about specific speakers by name, expertise, or country! For example:
+- "Tell me about Darlington Akogo"
+- "Who are the government ministers speaking?"
+- "Find speakers in healthcare AI"
+
+Who would you like to know more about? 🌟`;
+    }
+
+    // Check for call for speakers (different topic)
+    if (
+      lowerMessage.includes("apply to speak") ||
+      lowerMessage.includes("call for speakers")
+    ) {
+      return `🎤 **Speaker Opportunities at PAAIS 2026**
+
+We're looking for speakers in Ethical AI, African LLMs, Healthcare AI, AgriTech, and EduTech. 
+
+**Application Details:**
+- Apply here: [panafricanaisummit.com/call-for-speakers](https://panafricanaisummit.com/speaker-registration)
+- Deadline: June 30, 2026
+
+Would you like to know more about the confirmed speakers for this year's summit? 🎤`;
     }
 
     if (lowerMessage.includes("date") || lowerMessage.includes("when")) {
@@ -778,14 +871,133 @@ Early registration is recommended as capacity is limited to 1,000 attendees. Wha
     }
 
     return `🤖 Hello! I'm PAAIS Junior, your guide to the Pan African AI Summit 2026! I can help you with:
-- 🎤 Speaker information (36+ experts!)
+- 🎤 **Speaker information** (36+ confirmed experts!)
 - 📅 Summit dates and venue
 - 🎟️ Free registration
 - 🤝 Sponsorship opportunities
 - 📚 Agenda and themes
 - 🌍 Participation details
 
-What would you like to know about? Ask me anything! 🌟`;
+**Try asking:**
+- "Who are the speakers?"
+- "Tell me about Darlington Akogo"
+- "What are the summit dates?"
+- "How do I register?"
+
+What would you like to know about? 🌟`;
+  }
+
+  findSpeakerByName(name) {
+    const speakers = [
+      {
+        name: "Hon. Sam George",
+        title: "Minister of Communication, Digital Technology and Innovations",
+        company: null,
+        institution: null,
+        country: "Ghana",
+        bio: "Leading Ghana's digital transformation agenda and technology policy development.",
+        expertise: [
+          "Digital Policy",
+          "Technology Innovation",
+          "Communications",
+          "Digital Transformation",
+        ],
+        type: "Government",
+      },
+      {
+        name: "Hon. George Opare Addo",
+        title: "Minister of Youth Development & Empowerment",
+        company: null,
+        institution: null,
+        country: "Ghana",
+        bio: "Driving youth empowerment initiatives and skills development programs.",
+        expertise: [
+          "Youth Development",
+          "Skills Training",
+          "Empowerment",
+          "Digital Economy",
+        ],
+        type: "Government",
+      },
+      {
+        name: "Darlington Akogo",
+        title: "Founder & CEO",
+        company: "minoHealth AI",
+        institution: null,
+        country: "Ghana",
+        bio: "Pioneering AI solutions for healthcare and agriculture in Africa. UN AI for Radiology Chair.",
+        expertise: [
+          "Healthcare AI",
+          "Agricultural AI",
+          "UN Initiatives",
+          "Global Health",
+        ],
+        type: "Tech Entrepreneur",
+        profileUrl: "https://panafricanaisummit.com/darlington",
+      },
+      {
+        name: "Dr. Jason Hickey",
+        title: "Former Head",
+        company: "Google Research Africa",
+        institution: null,
+        bio: "Led Google's AI research initiatives across Africa.",
+        expertise: [
+          "AI Research",
+          "Machine Learning",
+          "Research Leadership",
+          "African AI",
+        ],
+        type: "Tech Leader",
+        profileUrl: "https://panafricanaisummit.com/jason",
+      },
+      {
+        name: "Emmanuel Apetsi",
+        title: "AI/ML Engineer",
+        company: "SISU AI",
+        institution: null,
+        bio: "Leading AI development and open source AI initiatives in Africa.",
+        expertise: [
+          "AI/ML Engineering",
+          "Open Source AI",
+          "African AI",
+          "Technical Leadership",
+        ],
+        type: "Tech Entrepreneur",
+        profileUrl: "https://panafricanaisummit.com/emmanuel",
+      },
+      {
+        name: "Prof. Olivia A. T. Frimpong Kwapong",
+        title: "Dean - School of Continuing and Distance Education",
+        company: null,
+        institution: "University of Ghana",
+        bio: "Leading distance education initiatives and digital youth development programs.",
+        expertise: [
+          "Distance Education",
+          "Digital Youth Development",
+          "Educational Technology",
+        ],
+        type: "Academia",
+        profileUrl: "https://panafricanaisummit.com/olivia",
+      },
+      {
+        name: "Titi Akinsanmi",
+        title: "Global Policy Team Lead",
+        company: "Google",
+        institution: null,
+        bio: "Leading AI safety and responsible AI policy at Google.",
+        expertise: [
+          "AI Policy",
+          "AI Safety",
+          "Responsible AI",
+          "Generative AI",
+        ],
+        type: "Tech Leader",
+        profileUrl: "https://panafricanaisummit.com/tiki-akinsanmi",
+      },
+    ];
+
+    const searchName = name.toLowerCase();
+    return speakers.find((s) => s.name.toLowerCase().includes(searchName));
   }
 
   async testConnection() {
