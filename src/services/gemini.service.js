@@ -1,7 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const fs = require("fs");
 const path = require("path");
-require("dotenv").config(); 
+require("dotenv").config();
 
 // Load summit data
 const summitDataPath = path.join(
@@ -16,668 +16,678 @@ class GeminiService {
       throw new Error("GEMINI_API_KEY is not defined in environment variables");
     }
 
-    console.log("Initializing Gemini Service...");
+    console.log("🚀 Initializing PAAIS Junior Service...");
     console.log("API Key present:", !!process.env.GEMINI_API_KEY);
 
-    // Initialize Gemini AI
     this.ai = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY,
     });
 
-    // Try different models - start with the most common ones
-    this.modelName = "gemini-2.5-flash";
-    console.log(`Using model: ${this.modelName}`);
+    this.modelName = "gemini-2.0-flash-exp";
+    console.log(`📡 Using model: ${this.modelName}`);
 
-    this.context = this.buildContext();
+    // Load all data from JSON
+    this.speakers = summitData.speakers_list || {
+      all_speakers: [],
+      featured: [],
+    };
+    this.organizers = summitData.organizers;
+    this.eventDetails = summitData.event_details;
+    this.sponsorship = summitData.sponsorship;
+    this.registration = summitData.registration;
+    this.summit = summitData.summit;
+    this.thematicAreas = summitData.thematic_areas;
+    this.participation = summitData.participation;
+
+    console.log(
+      `✅ Loaded ${this.speakers.all_speakers?.length || 0} speakers`,
+    );
+    console.log(`✅ Loaded organizers data`);
+    console.log(`✅ PAAIS Junior is ready!`);
   }
 
-  buildSpeakersContext() {
-    // Comprehensive speaker profiles
-    const speakers = [
-      {
-        name: "Hon. Sam George",
-        title: "Minister of Communication, Digital Technology and Innovations",
-        country: "Ghana",
-        bio: "Leading Ghana's digital transformation agenda and technology policy development. Driving the country's digitalization efforts and innovation ecosystem.",
-        expertise: [
-          "Digital Policy",
-          "Technology Innovation",
-          "Communications",
-          "Digital Transformation",
-        ],
-        type: "Government",
-      },
-      {
-        name: "Hon. George Opare Addo",
-        title: "Minister of Youth Development & Empowerment",
-        country: "Ghana",
-        bio: "Driving youth empowerment initiatives, skills development programs, and creating opportunities for young people in the digital economy.",
-        expertise: [
-          "Youth Development",
-          "Skills Training",
-          "Empowerment",
-          "Digital Economy",
-        ],
-        type: "Government",
-      },
-      {
-        name: "Reuben Opata",
-        title: "Chief Technology Officer",
-        company: "MTN Ghana",
-        country: "Ghana",
-        bio: "Leading technological innovation and digital transformation at MTN Ghana, driving mobile technology advancement across the country.",
-        expertise: [
-          "Telecom Technology",
-          "Digital Transformation",
-          "5G",
-          "Mobile Innovation",
-        ],
-        profileUrl: "https://panafricanaisummit.com/opata",
-        type: "Industry",
-      },
-      {
-        name: "Arias WebsterBerry",
-        title: "CEO & Founder",
-        company: "Arias WebsterBerry Marketing",
-        bio: "Marketing expert specializing in brand development, digital marketing strategies, and business growth.",
-        expertise: [
-          "Marketing Strategy",
-          "Brand Development",
-          "Digital Marketing",
-          "Business Growth",
-        ],
-        profileUrl: "https://panafricanaisummit.com/arias",
-        type: "Industry",
-      },
-      {
-        name: "Prof. Olivia A. T. Frimpong Kwapong",
-        title: "Dean - School of Continuing and Distance Education",
-        institution: "University of Ghana",
-        other: "Director - Digital Youth Village",
-        bio: "Leading distance education initiatives and digital youth development programs. Expert in educational technology and lifelong learning.",
-        expertise: [
-          "Distance Education",
-          "Digital Youth Development",
-          "Educational Technology",
-          "Lifelong Learning",
-        ],
-        profileUrl: "https://panafricanaisummit.com/olivia",
-        type: "Academia",
-      },
-      {
-        name: "Darlington Akogo",
-        title: "Founder & CEO",
-        companies: ["minoHealth AI", "karaAgro AI"],
-        other: "AI for Radiology Chair, United Nations",
-        bio: "Pioneering AI solutions for healthcare and agriculture in Africa. Leading UN initiatives on AI in radiology and global health.",
-        expertise: [
-          "Healthcare AI",
-          "Agricultural AI",
-          "UN Initiatives",
-          "Global Health",
-        ],
-        profileUrl: "https://panafricanaisummit.com/darlington",
-        type: "Tech Entrepreneur",
-      },
-      {
-        name: "Dr. Jason Hickey",
-        title: "Former Head",
-        company: "Google Research Africa",
-        bio: "Led Google's AI research initiatives across Africa. Expert in machine learning research and AI development on the continent.",
-        expertise: [
-          "AI Research",
-          "Machine Learning",
-          "Research Leadership",
-          "African AI",
-        ],
-        profileUrl: "https://panafricanaisummit.com/jason",
-        type: "Tech Leader",
-      },
-      {
-        name: "MAXWELL ABABIO",
-        title: "Deputy Director, Technology & Ethics",
-        institution: "Data Protection Commission",
-        bio: "Leading data protection and ethical AI governance initiatives. Expert in privacy regulations and responsible technology.",
-        expertise: [
-          "Data Protection",
-          "AI Ethics",
-          "Technology Governance",
-          "Privacy",
-        ],
-        profileUrl: "https://panafricanaisummit.com/maxwell",
-        type: "Government",
-      },
-      {
-        name: "Andreas Horn",
-        title: "Cloud Architect - Data Engineering & Machine Learning",
-        company: "Google",
-        country: "Germany",
-        bio: "Expert in cloud architecture, data engineering, and machine learning infrastructure at Google.",
-        expertise: [
-          "Cloud Architecture",
-          "Data Engineering",
-          "Machine Learning",
-          "MLOps",
-        ],
-        profileUrl: "https://panafricanaisummit.com/festus-Eo2UTR",
-        type: "Tech Leader",
-      },
-      {
-        name: "Danny Manu",
-        title: "Innovative Entrepreneur & Angel Investor",
-        company: "Mymanu® UK",
-        bio: "Serial entrepreneur and investor in innovative technology. Founder of Mymanu, creating cutting-edge consumer tech products.",
-        expertise: [
-          "Entrepreneurship",
-          "Angel Investing",
-          "Product Innovation",
-          "Consumer Tech",
-        ],
-        linkedin: "https://www.linkedin.com/in/dannymanu/",
-        type: "Investor",
-      },
-      {
-        name: "Reginald Ankrah",
-        title: "AI Consultant",
-        company: "Accenture UK",
-        specialty: "Building Trustworthy AI in Africa",
-        bio: "Expert in responsible AI implementation and trustworthy AI systems in African contexts. Helping organizations build ethical AI solutions.",
-        expertise: [
-          "Trustworthy AI",
-          "AI Implementation",
-          "Responsible AI",
-          "African AI",
-        ],
-        profileUrl: "https://panafricanaisummit.com/reginald",
-        type: "Consultant",
-      },
-      {
-        name: "Nina Korley",
-        title: "Associate Director, Cyber Strategy & Transformation",
-        bio: "Leading cybersecurity strategy and digital transformation initiatives. Expert in cyber risk management and security governance.",
-        expertise: [
-          "Cybersecurity",
-          "Digital Transformation",
-          "Strategy",
-          "Risk Management",
-        ],
-        profileUrl: "https://panafricanaisummit.com/nina",
-        type: "Consultant",
-      },
-      {
-        name: "Kayode Akomolafe",
-        title:
-          "Commercial Business Leader & Enterprise Business Digital Transformation Director",
-        company: "AWS",
-        bio: "Driving digital transformation and cloud adoption across Africa. Expert in enterprise cloud strategy and business innovation.",
-        expertise: [
-          "Cloud Computing",
-          "Digital Transformation",
-          "Enterprise Strategy",
-          "AWS",
-        ],
-        profileUrl: "https://panafricanaisummit.com/kayode",
-        type: "Tech Leader",
-      },
-      {
-        name: "Joseph Kweku Assan",
-        title: "Director of the Sustainable International Development Program",
-        bio: "Expert in sustainable development, international cooperation, and development policy.",
-        expertise: [
-          "Sustainable Development",
-          "International Development",
-          "Policy",
-          "Development Economics",
-        ],
-        profileUrl: "https://panafricanaisummit.com/festus-Eo2UTR-z9kXSz",
-        type: "Academia",
-      },
-      {
-        name: "Paul Crafer",
-        title: "AI Assurance and Audit Services Lead",
-        region: "EMEA",
-        credentials: "FCHA, SWE",
-        bio: "Specialist in AI assurance, audit, and governance. Expert in ensuring AI systems meet regulatory and ethical standards.",
-        expertise: ["AI Assurance", "AI Audit", "AI Governance", "Compliance"],
-        profileUrl: "https://panafricanaisummit.com/paul",
-        type: "Consultant",
-      },
-      {
-        name: "George Adjabeng",
-        title: "Head of Innovation",
-        company: "Société Générale",
-        bio: "Leading innovation initiatives in banking and finance. Driving digital transformation and fintech solutions.",
-        expertise: [
-          "Banking Innovation",
-          "FinTech",
-          "Digital Banking",
-          "Financial Services",
-        ],
-        linkedin: "https://www.linkedin.com/in/george-adjebeng-09423a27/",
-        type: "Industry",
-      },
-      {
-        name: "Dr. Tim Schneller",
-        title: "Founder",
-        company: "CollabInspire",
-        roles: ["B2B Strategy & AI Partnerships", "Lecturer"],
-        bio: "Expert in B2B strategy, AI partnerships, and business collaboration. Educator and strategic advisor.",
-        expertise: [
-          "B2B Strategy",
-          "AI Partnerships",
-          "Business Strategy",
-          "Education",
-        ],
-        profileUrl: "https://panafricanaisummit.com/tim",
-        type: "Consultant",
-      },
-      {
-        name: "Edward Aikins",
-        title: "Senior Manager",
-        company: "Deloitte",
-        bio: "Consulting expert in business transformation, digital strategy, and organizational change.",
-        expertise: [
-          "Business Consulting",
-          "Digital Transformation",
-          "Strategy",
-          "Change Management",
-        ],
-        profileUrl: "https://panafricanaisummit.com/edward",
-        type: "Consultant",
-      },
-      {
-        name: "Yaw (Oduro) Nsarkoh",
-        title: "Strategic Adviser, Professional Coach and Director",
-        bio: "Strategic advisor and executive coach. Expert in leadership development and organizational strategy.",
-        expertise: [
-          "Strategic Advisory",
-          "Executive Coaching",
-          "Leadership",
-          "Organizational Strategy",
-        ],
-        profileUrl: "https://panafricanaisummit.com/yaw",
-        type: "Consultant",
-      },
-      {
-        name: "Akwasi Obeng-Adjei",
-        title: "Executive: Risk (Business Bank)",
-        company: "Absa Group Limited",
-        credentials: "MBA (Stellenbosch)",
-        bio: "Risk management expert in business banking. Specialist in financial risk and banking operations.",
-        expertise: [
-          "Risk Management",
-          "Business Banking",
-          "Financial Risk",
-          "Banking",
-        ],
-        profileUrl: "https://panafricanaisummit.com/akwesi",
-        type: "Industry",
-      },
-      {
-        name: "Richard Quainoo",
-        title: "Senior AI & Data Consultant",
-        company: "Deloitte",
-        bio: "Expert in AI and data analytics consulting. Helping organizations leverage AI for business value.",
-        expertise: [
-          "AI Consulting",
-          "Data Analytics",
-          "Machine Learning",
-          "Business Intelligence",
-        ],
-        profileUrl: "https://panafricanaisummit.com/richard",
-        type: "Consultant",
-      },
-      {
-        name: "Joshua Odoi",
-        title: "Intel AI Mastercoach",
-        other: "Innovation & Tech Lead - BUILD Weekends",
-        bio: "AI education and innovation facilitator. Leading AI training and community building initiatives.",
-        expertise: [
-          "AI Education",
-          "Tech Innovation",
-          "Mentorship",
-          "Community Building",
-        ],
-        profileUrl: "https://panafricanaisummit.com/josh",
-        type: "Educator",
-      },
-      {
-        name: "Emmanuel Apetsi",
-        title: "AI/ML Engineer",
-        roles: ["CEO, SISU AI", "Exec. Director, OpenAI4Africa"],
-        bio: "Leading AI development and open source AI initiatives in Africa. Expert in AI/ML engineering and open source contributions.",
-        expertise: [
-          "AI/ML Engineering",
-          "Open Source AI",
-          "African AI",
-          "Technical Leadership",
-        ],
-        profileUrl: "https://panafricanaisummit.com/emmanuel",
-        type: "Tech Entrepreneur",
-      },
-      {
-        name: "Prof. Kobby Mensah",
-        title: "CEO",
-        company: "GTDC",
-        bio: "Leading digital transformation and technology development. Expert in technology strategy and innovation.",
-        expertise: [
-          "Digital Transformation",
-          "Technology Leadership",
-          "Innovation Strategy",
-          "Education",
-        ],
-        profileUrl: "https://panafricanaisummit.com/prof",
-        type: "Academia",
-      },
-      {
-        name: "Ayo Jones",
-        title: "AI Advisor & Keynote Speaker",
-        other: "Creator of the SHiFT System™",
-        bio: "AI advisor, keynote speaker, and systems thinker. Helping organizations transform through AI.",
-        expertise: [
-          "AI Advisory",
-          "Keynote Speaking",
-          "Systems Thinking",
-          "Transformation",
-        ],
-        profileUrl: "https://panafricanaisummit.com/ayo",
-        type: "Consultant",
-      },
-      {
-        name: "Eugene Allotey",
-        title: "Co-Founder & COO",
-        company: "Creative Bibini Ltd",
-        other: "Dev Partner at FOCAS",
-        bio: "Tech entrepreneur and development partner. Expert in software development and partnerships.",
-        expertise: [
-          "Tech Entrepreneurship",
-          "Software Development",
-          "Partnerships",
-          "Startup Operations",
-        ],
-        profileUrl: "https://panafricanaisummit.com/eugene",
-        type: "Tech Entrepreneur",
-      },
-      {
-        name: "Vincent Tetteh",
-        title: "Senior DevOps & AI Infrastructure Engineer",
-        company: "Standard Chartered",
-        bio: "Expert in DevOps and AI infrastructure. Building scalable AI systems and cloud infrastructure.",
-        expertise: [
-          "DevOps",
-          "AI Infrastructure",
-          "Cloud Engineering",
-          "MLOps",
-        ],
-        profileUrl: "https://panafricanaisummit.com/vincent",
-        type: "Tech Leader",
-      },
-      {
-        name: "Festus Asare-Yeboah",
-        title: "Cloud Architect, Data Engineering & Machine Learning",
-        company: "Google",
-        bio: "Cloud architecture and ML engineering expert at Google. Specialist in data engineering and ML infrastructure.",
-        expertise: [
-          "Cloud Architecture",
-          "Data Engineering",
-          "MLOps",
-          "Google Cloud",
-        ],
-        profileUrl: "https://panafricanaisummit.com/festus",
-        type: "Tech Leader",
-      },
-      {
-        name: "Dr. G. Ayorkor Korsah",
-        title: "Head of Computer Science",
-        institution: "Ashesi University",
-        bio: "Leading AI and robotics education in Ghana. Expert in artificial intelligence, robotics, and computer science education.",
-        expertise: [
-          "Artificial Intelligence",
-          "Robotics",
-          "Computer Science Education",
-          "AI Research",
-        ],
-        linkedin: "https://www.linkedin.com/in/g-ayorkor-korsah-1b09183/",
-        type: "Academia",
-      },
-      {
-        name: "Titi Akinsanmi",
-        title:
-          "Global Policy Team Lead, Gemini & Gen AI Safety & Responsibility",
-        bio: "Leading AI safety and responsible AI policy at Google. Expert in generative AI governance and safety frameworks.",
-        expertise: [
-          "AI Policy",
-          "AI Safety",
-          "Responsible AI",
-          "Generative AI",
-        ],
-        profileUrl: "https://panafricanaisummit.com/tiki-akinsanmi",
-        type: "Tech Leader",
-      },
-      {
-        name: "Abena Nyamesem",
-        title: "Environmental & Sustainability Consultant",
-        organization: "GIFEC",
-        credentials: "Esq",
-        bio: "Expert in environmental sustainability, policy, and ESG frameworks. Legal expert in environmental law.",
-        expertise: [
-          "Environmental Policy",
-          "Sustainability",
-          "ESG",
-          "Environmental Law",
-        ],
-        linkedin: "https://www.linkedin.com/in/abena-nyamesem-6a40b431/",
-        type: "Consultant",
-      },
-      {
-        name: "Naa Adoley Azu",
-        title: "Public Affairs | Product Policy | Responsible AI Enablement",
-        specialty: "Bridging Law, Government & Industry",
-        bio: "Expert in AI policy, public affairs, and responsible AI enablement. Bridging the gap between law, government, and industry.",
-        expertise: [
-          "AI Policy",
-          "Public Affairs",
-          "Responsible AI",
-          "Government Relations",
-        ],
-        profileUrl: "https://panafricanaisummit.com/naa",
-        type: "Policy Expert",
-      },
-      {
-        name: "Tom-Chris Emewulu",
-        title: "Founder & President",
-        organization: "Stars From All Nations (SFAN)",
-        bio: "Empowering youth through education and entrepreneurship. Leading initiatives for youth development in Africa.",
-        expertise: [
-          "Youth Empowerment",
-          "Education",
-          "Entrepreneurship",
-          "Leadership Development",
-        ],
-        profileUrl: "https://panafricanaisummit.com/tom",
-        type: "Social Entrepreneur",
-      },
-      {
-        name: "Bertha Akua Asare",
-        title: "Senior Privacy & Information Security Analyst",
-        institution: "Brandeis University",
-        specialty: "Responsible AI, Cybersecurity & Governance",
-        bio: "Expert in privacy, security, and AI governance. Specializing in responsible AI and information security.",
-        expertise: [
-          "Privacy",
-          "Information Security",
-          "AI Governance",
-          "Cybersecurity",
-        ],
-        profileUrl: "https://panafricanaisummit.com/bertha",
-        type: "Academia",
-      },
-    ];
+  // ============================================
+  // SMART QUERY HANDLERS
+  // ============================================
 
-    // Build formatted speakers list
-    let speakersText =
-      "\n## 🎤 SUMMIT SPEAKERS (36+ Distinguished Speakers):\n\n";
-    speakersText +=
-      "IMPORTANT: These are the CONFIRMED SPEAKERS for the 2026 summit. When users ask about speakers, provide information from this list.\n\n";
+  handleGeneralQuery(userMessage) {
+    const lowerMsg = userMessage.toLowerCase();
 
-    // Group speakers by type for better organization
-    const speakersByType = {
-      Government: [],
-      "Tech Leader": [],
-      "Tech Entrepreneur": [],
-      Industry: [],
-      Academia: [],
-      Consultant: [],
-      "Policy Expert": [],
-      Investor: [],
-      Educator: [],
-      "Social Entrepreneur": [],
-    };
+    // Organizer queries
+    if (
+      lowerMsg.includes("organizer") ||
+      lowerMsg.includes("who is organizing") ||
+      lowerMsg.includes("who organized") ||
+      lowerMsg.includes("hosting") ||
+      lowerMsg.includes("who is behind") ||
+      lowerMsg.includes("who runs")
+    ) {
+      return this.getOrganizerInfo();
+    }
 
-    speakers.forEach((speaker) => {
-      speakersByType[speaker.type].push(speaker);
+    // Sponsor queries
+    if (
+      lowerMsg.includes("sponsor") ||
+      lowerMsg.includes("partner") ||
+      lowerMsg.includes("who is sponsoring") ||
+      lowerMsg.includes("funding") ||
+      lowerMsg.includes("backing")
+    ) {
+      return this.getSponsorInfo();
+    }
+
+    // Registration queries
+    if (
+      lowerMsg.includes("register") ||
+      lowerMsg.includes("sign up") ||
+      lowerMsg.includes("ticket") ||
+      lowerMsg.includes("how to attend") ||
+      lowerMsg.includes("join") ||
+      lowerMsg.includes("participate")
+    ) {
+      return this.getRegistrationInfo();
+    }
+
+    // Date/Time queries
+    if (
+      lowerMsg.includes("date") ||
+      lowerMsg.includes("when") ||
+      lowerMsg.includes("schedule") ||
+      lowerMsg.includes("timing") ||
+      lowerMsg.includes("days")
+    ) {
+      return this.getDateInfo();
+    }
+
+    // Venue/Location queries
+    if (
+      lowerMsg.includes("venue") ||
+      lowerMsg.includes("location") ||
+      lowerMsg.includes("where") ||
+      lowerMsg.includes("address") ||
+      lowerMsg.includes("place") ||
+      lowerMsg.includes("hotel")
+    ) {
+      return this.getVenueInfo();
+    }
+
+    // Theme queries
+    if (
+      lowerMsg.includes("theme") ||
+      lowerMsg.includes("focus") ||
+      lowerMsg.includes("topic") ||
+      lowerMsg.includes("about")
+    ) {
+      return this.getThemeInfo();
+    }
+
+    // Agenda/Program queries
+    if (
+      lowerMsg.includes("agenda") ||
+      lowerMsg.includes("program") ||
+      lowerMsg.includes("itinerary") ||
+      lowerMsg.includes("what happens") ||
+      lowerMsg.includes("plan") ||
+      lowerMsg.includes("sessions")
+    ) {
+      return this.getAgendaInfo();
+    }
+
+    // Participation queries
+    if (
+      lowerMsg.includes("participate") ||
+      lowerMsg.includes("attend") ||
+      lowerMsg.includes("who can") ||
+      lowerMsg.includes("eligibility") ||
+      lowerMsg.includes("target audience")
+    ) {
+      return this.getParticipationInfo();
+    }
+
+    // What is the summit
+    if (
+      (lowerMsg.includes("what is") || lowerMsg.includes("tell me about")) &&
+      (lowerMsg.includes("summit") ||
+        lowerMsg.includes("paais") ||
+        lowerMsg.includes("event"))
+    ) {
+      return this.getSummitOverview();
+    }
+
+    // Accommodation queries
+    if (
+      lowerMsg.includes("accommodation") ||
+      lowerMsg.includes("hotel") ||
+      lowerMsg.includes("stay") ||
+      lowerMsg.includes("where to stay") ||
+      lowerMsg.includes("lodging")
+    ) {
+      return this.getAccommodationInfo();
+    }
+
+    // Travel queries
+    if (
+      lowerMsg.includes("travel") ||
+      lowerMsg.includes("flight") ||
+      lowerMsg.includes("airport") ||
+      lowerMsg.includes("transport") ||
+      lowerMsg.includes("getting there")
+    ) {
+      return this.getTravelInfo();
+    }
+
+    // Virtual attendance queries
+    if (
+      lowerMsg.includes("virtual") ||
+      lowerMsg.includes("online") ||
+      lowerMsg.includes("remote") ||
+      lowerMsg.includes("zoom") ||
+      lowerMsg.includes("stream")
+    ) {
+      return this.getVirtualInfo();
+    }
+
+    // Speaker queries are handled separately
+    return null;
+  }
+
+  getOrganizerInfo() {
+    const org = this.organizers;
+    let response = "🏛️ **Summit Organizers & Partners**\n\n";
+
+    response += `**🌟 Host Country:** ${org.host.name}\n`;
+    response += `${org.host.description}\n\n`;
+
+    response += `**📋 Lead Organizer:** ${org.lead_organizer.name}\n`;
+    response += `Minister: ${org.lead_organizer.minister}\n`;
+    response += `${org.lead_organizer.description}\n\n`;
+
+    response += `**🤝 Co-Organizers:**\n`;
+    org.co_organizers.forEach((o) => {
+      response += `• **${o.name}** (${o.role})\n`;
+      response += `  ${o.description}\n`;
+    });
+    response += `\n`;
+
+    response += `**💼 Strategic Partners:**\n`;
+    org.strategic_partners.forEach((p) => {
+      response += `• **${p.name}** - ${p.role}\n`;
+      response += `  ${p.description}\n`;
+    });
+    response += `\n`;
+
+    response += `**🎓 Academic Partners:**\n`;
+    org.academic_partners.forEach((p) => {
+      response += `• **${p.name}** - ${p.role}\n`;
+    });
+    response += `\n`;
+
+    response += `**📞 Contact:** ${org.contact.email} | ${org.contact.website}\n\n`;
+    response += `This incredible collaboration brings together the best minds and organizations to make PAAIS 2026 a success! 🌟`;
+    return response;
+  }
+
+  getSponsorInfo() {
+    const sponsors = this.sponsorship;
+    let response = "🤝 **Sponsorship Opportunities at PAAIS 2026**\n\n";
+
+    response += `${sponsors.intro}\n\n`;
+
+    response += `**📦 Available Packages:**\n`;
+    sponsors.packages.forEach((p) => {
+      response += `\n**${p.name}** - $${p.price.toLocaleString()}\n`;
+      response += `Benefits include:\n`;
+      p.benefits.slice(0, 4).forEach((b) => {
+        response += `  • ${b}\n`;
+      });
+      if (p.benefits.length > 4) response += `  • And more...\n`;
     });
 
-    // Add speakers by category
-    for (const [type, speakersList] of Object.entries(speakersByType)) {
-      if (speakersList.length > 0) {
-        speakersText += `### ${type} Speakers:\n`;
-        speakersList.forEach((speaker) => {
-          speakersText += `**${speaker.name}** - ${speaker.title}`;
-          if (speaker.company) speakersText += ` at ${speaker.company}`;
-          if (speaker.institution) speakersText += ` at ${speaker.institution}`;
-          speakersText += `\n`;
-          speakersText += `- **Expertise:** ${speaker.expertise.join(", ")}\n`;
-          speakersText += `- **Bio:** ${speaker.bio}\n`;
-          if (speaker.country)
-            speakersText += `- **Country:** ${speaker.country}\n`;
-          if (speaker.profileUrl)
-            speakersText += `- **Profile:** ${speaker.profileUrl}\n`;
-          if (speaker.linkedin)
-            speakersText += `- **LinkedIn:** ${speaker.linkedin}\n`;
-          speakersText += `\n`;
-        });
+    response += `\n**🏆 Current Sponsors include:**\n`;
+    if (this.organizers && this.organizers.strategic_partners) {
+      this.organizers.strategic_partners.forEach((p) => {
+        response += `• **${p.name}** (${p.role})\n`;
+      });
+    }
+
+    response += `\n**📧 For sponsorship inquiries:** ${sponsors.contact.email}\n`;
+    response += `📱 WhatsApp: ${sponsors.contact.whatsapp}\n\n`;
+    response += `Join us in shaping Africa's AI future! 🚀`;
+    return response;
+  }
+
+  getRegistrationInfo() {
+    const reg = this.registration;
+    let response = "🎟️ **Registration Information**\n\n";
+    response += `**Status:** ${reg.status} 🔓\n`;
+    response += `**Cost:** ${reg.fee} ✨\n`;
+    response += `**In-Person Capacity:** ${reg.capacity} attendees\n`;
+    response += `**Virtual Capacity:** ${reg.virtual_capacity || "Unlimited"} attendees\n\n`;
+
+    response += `**✨ What's Included:**\n`;
+    reg.includes.forEach((item) => {
+      response += `• ${item}\n`;
+    });
+
+    response += `\n**🔗 Register Here:** ${reg.url}\n\n`;
+    response += `**📝 Important Notes:**\n`;
+    response += `• ${reg.instructions}\n`;
+    response += `• ${reg.note}\n\n`;
+    response += `Don't wait - secure your spot today! 🚀`;
+    return response;
+  }
+
+  getDateInfo() {
+    const dates = this.eventDetails.dates;
+    return (
+      `📅 **Summit Dates**\n\n` +
+      `The Pan African AI Summit 2026 will take place on **${dates.start} to ${dates.end}**.\n\n` +
+      `**Duration:** ${dates.duration_days} days of innovation, networking, and learning.\n\n` +
+      `**Quick Schedule:**\n` +
+      `• **Day 1 (${this.eventDetails.agenda.day1.date})**: Registration from 8:00 AM, Opening Ceremony at 9:00 AM\n` +
+      `• **Day 2 (${this.eventDetails.agenda.day2.date})**: Keynotes from 9:00 AM, Closing at 5:00 PM\n\n` +
+      `**Gala Dinner:** Evening of Day 2 (by invitation)\n\n` +
+      `Mark your calendar for this exciting event! 🌟`
+    );
+  }
+
+  getVenueInfo() {
+    const venue = this.eventDetails.location;
+    let response =
+      `📍 **Venue Information**\n\n` +
+      `**🏨 Venue:** ${venue.venue}\n` +
+      `**📍 Address:** ${venue.address}\n` +
+      `**✈️ Airport Distance:** ${venue.airport_distance}\n\n` +
+      `**🗺️ Map:** ${venue.map_url}\n\n` +
+      `**🏨 Nearby Hotels:**\n`;
+
+    this.eventDetails.accommodation.forEach((hotel) => {
+      response += `• **${hotel.name}** - ${hotel.distance} - ${hotel.rate || "Standard rates"}\n`;
+    });
+
+    response += `\nWe look forward to welcoming you to Accra! 🇬🇭`;
+    return response;
+  }
+
+  getThemeInfo() {
+    let response =
+      `🎯 **Summit Theme 2026**\n\n` +
+      `**"${this.eventDetails.theme}"**\n\n` +
+      `This theme focuses on:\n` +
+      `• **Youth Empowerment:** Creating opportunities for young African innovators and leaders\n` +
+      `• **Policy Development:** Building ethical AI frameworks for the continent\n` +
+      `• **Partnerships:** Fostering collaboration across sectors and borders\n` +
+      `• **Skills Development:** Equipping Africa's workforce for the AI economy\n\n` +
+      `The summit will explore how to turn strategy into actionable implementation across Africa. 🌍\n\n` +
+      `**Thematic Areas:**\n`;
+
+    this.thematicAreas.forEach((area) => {
+      response += `• **${area.category}:** ${area.topics.join(", ")}\n`;
+    });
+
+    return response;
+  }
+
+  getAgendaInfo() {
+    let response = `📋 **Summit Agenda**\n\n`;
+    response += `**Day 1 - ${this.eventDetails.agenda.day1.date}**\n`;
+    this.eventDetails.agenda.day1.sessions.forEach((session) => {
+      response += `• ${session}\n`;
+    });
+    response += `\n**Day 2 - ${this.eventDetails.agenda.day2.date}**\n`;
+    this.eventDetails.agenda.day2.sessions.forEach((session) => {
+      response += `• ${session}\n`;
+    });
+    response += `\n**🎤 Featured Sessions:**\n`;
+    response += `• Opening Keynote by Hon. Sam George\n`;
+    response += `• Keynote by Dr. Jason Hickey (ex-Google Research)\n`;
+    response += `• AI Pitch Competition for startups\n`;
+    response += `• Ministerial Roundtable on Youth Empowerment\n\n`;
+    response += `Full detailed agenda with speaker names and session descriptions will be released closer to the event date! 📅`;
+    return response;
+  }
+
+  getParticipationInfo() {
+    const part = this.participation;
+    let response = `👥 **Who Can Participate?**\n\n`;
+    response += `The summit welcomes:\n`;
+    part.participant_types.forEach((type) => {
+      response += `• **${type}**\n`;
+    });
+    response += `\n**🌍 Regions:** ${part.regions.join(", ")}\n\n`;
+    response += `**🗣️ Languages:** ${part.languages.join(", ")}\n\n`;
+    response += `**💡 What to Expect:**\n`;
+    response += `• Learn from industry experts and thought leaders\n`;
+    response += `• Network with peers from across Africa and globally\n`;
+    response += `• Discover investment and partnership opportunities\n`;
+    response += `• Showcase your work and innovations\n\n`;
+    response += `Whether you're a researcher, entrepreneur, student, or policymaker, there's a place for you at PAAIS 2026! 🌟`;
+    return response;
+  }
+
+  getSummitOverview() {
+    let response = `🌍 **Pan African AI Summit (PAAIS) Overview**\n\n`;
+    response += `${this.summit.mission}\n\n`;
+    response += `**📌 Key Details:**\n`;
+    response += `• **Next Summit:** ${this.summit.next_summit.dates} at ${this.summit.next_summit.venue}\n`;
+    response += `• **Theme:** ${this.eventDetails.theme}\n`;
+    response += `• **Core Pillars:** ${this.summit.core_pillars.join(", ")}\n\n`;
+
+    response += `**🎯 Key Objectives:**\n`;
+    this.summit.key_objectives.forEach((obj) => {
+      response += `• ${obj}\n`;
+    });
+
+    response += `\n**🏆 Achievements:**\n`;
+    this.summit.achievements.slice(0, 3).forEach((ach) => {
+      response += `• ${ach}\n`;
+    });
+
+    response += `\n**🚀 Upcoming Initiatives:**\n`;
+    this.summit.upcoming_initiatives.slice(0, 3).forEach((init) => {
+      response += `• ${init}\n`;
+    });
+
+    response += `\nJoin us in Accra for two days of innovation, networking, and shaping Africa's AI future! 🚀`;
+    return response;
+  }
+
+  getAccommodationInfo() {
+    let response = `🏨 **Accommodation Options**\n\n`;
+    response += `Recommended hotels near the venue:\n\n`;
+
+    this.eventDetails.accommodation.forEach((hotel) => {
+      response += `**${hotel.name}**\n`;
+      response += `• Type: ${hotel.type}\n`;
+      response += `• Distance: ${hotel.distance}\n`;
+      response += `• Contact: ${hotel.contact}\n`;
+      if (hotel.rate) response += `• Rate: ${hotel.rate}\n`;
+      response += `\n`;
+    });
+
+    response += `**💡 Tips:**\n`;
+    response += `• Book early as rooms fill up quickly during summit week\n`;
+    response += `• Mention "PAAIS 2026" when booking for potential discounts\n`;
+    response += `• Consider shared accommodations for budget-friendly options\n\n`;
+    response += `Need help with accommodation? Contact our team at ${this.organizers.contact.email}`;
+    return response;
+  }
+
+  getTravelInfo() {
+    return (
+      `✈️ **Travel Information**\n\n` +
+      `**🛬 Airport:** Kotoka International Airport (ACC)\n` +
+      `• Distance to venue: 10 minutes\n` +
+      `• Taxi services available 24/7\n\n` +
+      `**🚗 Getting to the Venue:**\n` +
+      `• From Airport: Take Liberation Road to Kempinski Hotel (10 mins)\n` +
+      `• Taxi fare: Approximately $10-15 USD\n` +
+      `• Ride-hailing: Uber and Bolt available\n\n` +
+      `**🛂 Visa Requirements:**\n` +
+      `• Most African countries: Visa on arrival or visa-free\n` +
+      `• Other countries: Check Ghana Embassy website\n` +
+      `• Invitation letters available upon request\n\n` +
+      `**🌡️ Weather in September:**\n` +
+      `• Average temperature: 25-30°C (77-86°F)\n` +
+      `• Light clothing recommended\n` +
+      `• Occasional rain possible\n\n` +
+      `For visa invitation letters, contact: ${this.organizers.contact.email}`
+    );
+  }
+
+  getVirtualInfo() {
+    return (
+      `💻 **Virtual Attendance Information**\n\n` +
+      `**🌐 Virtual Access:**\n` +
+      `• Live stream of all plenary sessions\n` +
+      `• Select breakout sessions available online\n` +
+      `• Interactive Q&A with speakers\n` +
+      `• Virtual networking lounge\n` +
+      `• Chat with other attendees\n\n` +
+      `**📱 Requirements:**\n` +
+      `• Stable internet connection\n` +
+      `• Modern browser (Chrome, Firefox, Safari)\n` +
+      `• Zoom or streaming platform access\n\n` +
+      `**📹 What You'll Get:**\n` +
+      `• Access to all recorded sessions (90 days)\n` +
+      `• Digital conference materials\n` +
+      `• Certificate of participation\n` +
+      `• Networking opportunities via app\n\n` +
+      `**🎟️ Registration:** ${this.registration.url}\n\n` +
+      `Join from anywhere in the world! 🌍`
+    );
+  }
+
+  // ============================================
+  // SPEAKER HANDLERS
+  // ============================================
+
+  findSpeakerByName(searchName) {
+    const allSpeakers = [
+      ...(this.speakers.all_speakers || []),
+      ...(this.speakers.featured || []),
+    ];
+    const searchLower = searchName.toLowerCase();
+
+    return allSpeakers.find(
+      (speaker) =>
+        speaker.name.toLowerCase().includes(searchLower) ||
+        (speaker.expertise &&
+          speaker.expertise.some((e) =>
+            e.toLowerCase().includes(searchLower),
+          )) ||
+        (speaker.company &&
+          speaker.company.toLowerCase().includes(searchLower)),
+    );
+  }
+
+  handleSpeakerQuery(userMessage) {
+    const lowerMsg = userMessage.toLowerCase();
+
+    // Check for specific speaker names
+    const allSpeakers = [
+      ...(this.speakers.all_speakers || []),
+      ...(this.speakers.featured || []),
+    ];
+
+    for (const speaker of allSpeakers) {
+      if (lowerMsg.includes(speaker.name.toLowerCase())) {
+        let response = `🎤 **${speaker.name}**\n\n`;
+        response += `**Title:** ${speaker.title}`;
+        if (speaker.company) response += ` at ${speaker.company}`;
+        if (speaker.institution) response += ` at ${speaker.institution}`;
+        response += `\n`;
+        if (speaker.expertise)
+          response += `**Expertise:** ${speaker.expertise.join(", ")}\n`;
+        response += `**Bio:** ${speaker.bio}\n`;
+        if (speaker.country) response += `**Country:** ${speaker.country}\n`;
+        if (speaker.session) response += `**Session:** ${speaker.session}\n`;
+        if (speaker.profileUrl)
+          response += `**Profile:** ${speaker.profileUrl}\n`;
+        if (speaker.linkedin) response += `**LinkedIn:** ${speaker.linkedin}\n`;
+        response += `\nWould you like to know about other speakers? 🌟`;
+        return response;
       }
     }
 
-    speakersText += `\n**Total Speakers:** ${speakers.length}+ distinguished experts, leaders, and innovators from across Africa and globally.\n`;
+    // Check for general speaker questions
+    if (
+      lowerMsg.includes("speaker") &&
+      !lowerMsg.includes("apply") &&
+      !lowerMsg.includes("call")
+    ) {
+      const featured = this.speakers.featured || [];
+      let response = `🎤 **Featured Speakers at PAAIS 2026**\n\n`;
 
-    return speakersText;
+      featured.slice(0, 6).forEach((s) => {
+        response += `**${s.name}**\n`;
+        response += `• ${s.title}${s.company ? ` at ${s.company}` : ""}\n`;
+        response += `• Expertise: ${s.expertise.slice(0, 3).join(", ")}\n`;
+        if (s.session) response += `• Session: ${s.session}\n`;
+        response += `\n`;
+      });
+
+      response += `And ${this.speakers.all_speakers?.length || 0} more distinguished speakers from across Africa and globally!\n\n`;
+      response += `To learn more about a specific speaker, just ask! For example:\n`;
+      response += `• "Tell me about Darlington Akogo"\n`;
+      response += `• "Who is Hon. Sam George?"\n`;
+      response += `• "Tell me about Dr. Jason Hickey"\n\n`;
+      response += `Who would you like to know about? 🌟`;
+      return response;
+    }
+
+    // Check for speaker application
+    if (
+      lowerMsg.includes("apply to speak") ||
+      lowerMsg.includes("call for speakers") ||
+      (lowerMsg.includes("speaker") && lowerMsg.includes("apply"))
+    ) {
+      const speakersInfo = summitData.speakers;
+      let response = `🎤 **Apply to Speak at PAAIS 2026**\n\n`;
+      response += `${speakersInfo.intro}\n\n`;
+      response += `**Focus Areas:**\n`;
+      speakersInfo.focus_areas.slice(0, 8).forEach((area) => {
+        response += `• ${area}\n`;
+      });
+      response += `\n**Application Requirements:**\n`;
+      speakersInfo.application.requirements.forEach((req) => {
+        response += `• ${req}\n`;
+      });
+      response += `\n**Timeline:**\n`;
+      response += `• Call Opens: ${speakersInfo.timeline.call_opens}\n`;
+      response += `• Early Deadline: ${speakersInfo.timeline.early_deadline}\n`;
+      response += `• Regular Deadline: ${speakersInfo.timeline.regular_deadline}\n\n`;
+      response += `**Apply Here:** ${speakersInfo.application.url}\n\n`;
+      response += `We'd love to hear your ideas! 🚀`;
+      return response;
+    }
+
+    return null;
   }
 
-  buildContext() {
-    const speakersContext = this.buildSpeakersContext();
+  // ============================================
+  // FALLBACK RESPONSE
+  // ============================================
 
-    return `You are "PAAIS Junior" - the official intelligent assistant for the Pan African AI Summit 2026.
+  getFallbackResponse(userMessage) {
+    const lowerMsg = userMessage.toLowerCase();
 
-## 🎯 CRITICAL RULES:
-1. **PRIORITIZE SPEAKER INFORMATION:** When users ask about "speakers", "who is speaking", or mention any speaker names, ALWAYS provide information from the speaker list below. DO NOT confuse this with "speaker opportunities" or "call for speakers".
-2. **DISTINGUISH BETWEEN:** 
-   - "Speakers" = the confirmed speakers listed below
-   - "Speaker opportunities" = the call for speakers application (different topic)
-3. If a user asks about a specific speaker (like "Darlington Akogo" or "Hon. Sam George"), provide their detailed profile from the speaker list.
+    if (
+      lowerMsg.includes("organizer") ||
+      lowerMsg.includes("who is organizing")
+    ) {
+      return this.getOrganizerInfo();
+    }
 
-## SUMMIT OVERVIEW:
-- **Name:** Pan African AI Summit (PAAIS)
-- **Dates:** September 22nd - 23rd, 2026
-- **Location:** Accra, Ghana
-- **Venue:** Kempinski Hotel Gold Coast City
-- **Theme:** "Scaling Africa's Ethical AI Ecosystem: Youth Empowerment, Policy, Partnerships, and Skill"
+    if (lowerMsg.includes("sponsor") || lowerMsg.includes("partner")) {
+      return this.getSponsorInfo();
+    }
 
-## MISSION:
-To accelerate Africa's AI ecosystem by fostering collaboration, knowledge sharing, and innovation across the continent while ensuring ethical and inclusive AI development.
+    if (lowerMsg.includes("register") || lowerMsg.includes("ticket")) {
+      return this.getRegistrationInfo();
+    }
 
-## CORE PILLARS:
-1. AI Research & Development
-2. AI Education & Capacity Building
-3. AI Policy & Governance
-4. AI Entrepreneurship & Investment
-5. AI for Social Good
+    if (lowerMsg.includes("date") || lowerMsg.includes("when")) {
+      return this.getDateInfo();
+    }
 
-${speakersContext}
+    if (
+      lowerMsg.includes("venue") ||
+      lowerMsg.includes("location") ||
+      lowerMsg.includes("where")
+    ) {
+      return this.getVenueInfo();
+    }
 
-## SPEAKER OPPORTUNITIES (Call for Speakers - Different from confirmed speakers):
-- **Purpose:** For those who want to APPLY to speak at future summits
-- **Deadline:** June 30, 2026
-- **Application:** https://panafricanaisummit.com/call-for-speakers
-- **Note:** Only provide this information when users specifically ask about "applying to speak" or "call for speakers"
+    if (lowerMsg.includes("theme") || lowerMsg.includes("focus")) {
+      return this.getThemeInfo();
+    }
 
-## REGISTRATION:
-- **Cost:** FREE (but required due to limited capacity)
-- **Includes:** Full access to sessions, networking, digital materials, certificate
-- **Register at:** https://panafricanaisummit.com/participate
+    if (
+      lowerMsg.includes("agenda") ||
+      lowerMsg.includes("program") ||
+      lowerMsg.includes("schedule")
+    ) {
+      return this.getAgendaInfo();
+    }
 
-## YOUR ROLE:
-1. **Be enthusiastic and helpful** - You're passionate about African AI development
-2. **Provide accurate information** - Always base answers on the summit data above
-3. **PRIORITIZE SPEAKER PROFILES** - When users ask about speakers, give details from the speaker list
-4. **Answer questions about:**
-   - ✅ Summit dates, location, and venue
-   - ✅ Registration process
-   - ✅ CONFIRMED SPEAKER information (from the list above)
-   - ✅ Sponsorship opportunities
-   - ✅ Thematic areas and agenda
-   - ✅ Participation requirements
-   - ❌ DO NOT confuse "speaker opportunities" with "confirmed speakers"
-5. **Keep responses concise but informative** (2-4 paragraphs max)
-6. **Include relevant links** when available
-7. **Start with appropriate emojis** (🎤 for speakers, 📅 for dates, 🎟️ for registration, etc.)
+    if (lowerMsg.includes("speaker")) {
+      const speakerResponse = this.handleSpeakerQuery(userMessage);
+      if (speakerResponse) return speakerResponse;
+      return `🎤 I can tell you about our amazing speakers! We have ${this.speakers.featured?.length || 0} featured speakers and ${this.speakers.all_speakers?.length || 0} more distinguished experts. Who would you like to know about? Try asking "Tell me about Darlington Akogo" or "Who are the speakers?" 🌟`;
+    }
 
-## RESPONSE FORMAT:
-- Start with a relevant emoji
-- Use bullet points for lists when helpful
-- End with an engaging question or offer to help further
-- Be friendly, professional, and encouraging
+    return `🤖 I'm PAAIS Junior, your AI assistant for the Pan African AI Summit 2026! I can help you with:
 
-Now, answer the user's question based on ALL the summit data above, including the detailed speaker information. REMEMBER: When users ask about speakers, provide information from the speaker list above, NOT the call for speakers application!`;
+**📋 Event Information:**
+• Who is organizing the summit
+• Summit dates and venue
+• Registration (FREE!)
+• Agenda and schedule
+• Speakers and their sessions
+
+**🤝 Opportunities:**
+• Sponsorship packages
+• Speaking applications
+• Participation details
+• Accommodation and travel
+
+**💡 Try asking:**
+• "Who is organizing the summit?"
+• "Tell me about the speakers"
+• "How do I register?"
+• "What are the sponsorship packages?"
+• "Tell me about Darlington Akogo"
+
+What would you like to know? 🌟`;
   }
+
+  // ============================================
+  // MAIN GENERATE RESPONSE METHOD
+  // ============================================
 
   async generateResponse(userMessage, chatHistory = []) {
     try {
       console.log(
-        `[GeminiService] Generating response for: "${userMessage.substring(
-          0,
-          50,
-        )}..."`,
+        `[GeminiService] Processing: "${userMessage.substring(0, 50)}..."`,
       );
 
-      // Build messages array
-      const messages = [
-        {
-          role: "user",
-          parts: [{ text: this.context }],
-        },
-        {
-          role: "model",
-          parts: [
-            {
-              text: "Understood! I am PAAIS Junior, ready to assist with Pan African AI Summit 2026 questions. I have detailed information about all 36+ confirmed speakers. When asked about speakers, I will provide their profiles from the speaker list, not the call for speakers information.",
-            },
-          ],
-        },
-      ];
-
-      // Add chat history if available
-      if (chatHistory && chatHistory.length > 0) {
-        messages.push(...chatHistory);
+      // First, check for speaker queries
+      const speakerResponse = this.handleSpeakerQuery(userMessage);
+      if (speakerResponse) {
+        console.log("[GeminiService] Direct speaker response");
+        return {
+          success: true,
+          message: speakerResponse,
+          timestamp: new Date().toISOString(),
+          model: "direct",
+        };
       }
 
-      // Add current user message
-      messages.push({
-        role: "user",
-        parts: [{ text: userMessage }],
-      });
+      // Then check for general queries
+      const generalResponse = this.handleGeneralQuery(userMessage);
+      if (generalResponse) {
+        console.log("[GeminiService] Direct general response");
+        return {
+          success: true,
+          message: generalResponse,
+          timestamp: new Date().toISOString(),
+          model: "direct",
+        };
+      }
 
-      console.log(
-        `[GeminiService] Sending to Gemini API with ${messages.length} messages...`,
-      );
+      // For complex questions, use Gemini
+      const context = this.buildContext();
+      const prompt = `${context}\n\nUser Question: ${userMessage}\n\nAnswer as PAAIS Junior (keep it friendly and concise):`;
+
+      console.log(`[GeminiService] Sending to Gemini API...`);
 
       const response = await this.ai.models.generateContent({
         model: this.modelName,
-        contents: messages,
+        contents: prompt,
         config: {
           temperature: 0.7,
-          maxOutputTokens: 1000,
+          maxOutputTokens: 800,
           topP: 0.95,
           topK: 40,
         },
@@ -694,342 +704,78 @@ Now, answer the user's question based on ALL the summit data above, including th
     } catch (error) {
       console.error("[GeminiService] Error:", error.message);
 
-      // Try fallback to simpler model
-      if (error.message.includes("not found") || error.status === 404) {
-        console.log("[GeminiService] Trying fallback model...");
-        return this.tryFallbackModel(userMessage);
-      }
-
+      // Return fallback response instead of error
       return {
-        success: false,
-        error: "Failed to generate response",
-        details: error.message,
+        success: true,
+        message: this.getFallbackResponse(userMessage),
         timestamp: new Date().toISOString(),
+        model: "fallback",
       };
     }
   }
 
-  async tryFallbackModel(userMessage) {
-    const fallbackModels = ["gemini-1.5-flash", "gemini-1.0-pro"];
+  // ============================================
+  // CONTEXT BUILDER FOR GEMINI
+  // ============================================
 
-    for (const model of fallbackModels) {
-      try {
-        console.log(`[GeminiService] Trying fallback model: ${model}`);
+  buildContext() {
+    return `You are "PAAIS Junior" - the official intelligent assistant for the Pan African AI Summit 2026.
 
-        const response = await this.ai.models.generateContent({
-          model: model,
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: `${this.context}\n\nUser: ${userMessage}` }],
-            },
-          ],
-          config: {
-            temperature: 0.7,
-            maxOutputTokens: 500,
-          },
-        });
+## SUMMIT OVERVIEW:
+- **Name:** ${this.summit.name}
+- **Dates:** ${this.summit.next_summit.dates}
+- **Location:** ${this.summit.next_summit.location}
+- **Venue:** ${this.summit.next_summit.venue}
+- **Theme:** ${this.eventDetails.theme}
+- **Registration:** FREE at ${this.registration.url}
 
-        console.log(`[GeminiService] Fallback model ${model} succeeded`);
+## MISSION:
+${this.summit.mission}
 
-        return {
-          success: true,
-          message: response.text,
-          timestamp: new Date().toISOString(),
-          model: model,
-          isFallback: true,
-        };
-      } catch (fallbackError) {
-        console.log(
-          `[GeminiService] Fallback model ${model} failed: ${fallbackError.message}`,
-        );
-        continue;
-      }
-    }
+## CORE PILLARS:
+${this.summit.core_pillars.map((p) => `• ${p}`).join("\n")}
 
-    // If all models fail, return a static response with speaker info
-    return {
-      success: true,
-      message: this.getStaticResponse(userMessage),
-      timestamp: new Date().toISOString(),
-      model: "static-fallback",
-    };
+## KEY THEMATIC AREAS:
+${this.thematicAreas.map((area) => `• ${area.category}: ${area.topics.slice(0, 2).join(", ")}`).join("\n")}
+
+## YOUR ROLE:
+You are a friendly, enthusiastic assistant. Answer questions about:
+- Who is organizing the summit (Government of Ghana, Ministry of Communication)
+- Sponsors and partners (Google, AWS, MTN, Accenture, etc.)
+- Registration process (FREE, limited capacity)
+- Summit dates and venue (Sept 22-23, 2026, Accra)
+- Speakers and their expertise
+- Agenda and program schedule
+- Participation requirements
+- Thematic areas
+- Accommodation and travel
+
+Keep responses:
+- Friendly and enthusiastic
+- Concise (2-3 paragraphs max)
+- Start with appropriate emojis
+- End with an engaging question
+
+If you don't know something, suggest contacting info@panafricanaisummit.africa`;
   }
 
-  getStaticResponse(userMessage) {
-    const lowerMessage = userMessage.toLowerCase();
-
-    // Check for specific speaker names first
-    const speakerNames = [
-      "sam george",
-      "george opare addo",
-      "reuben opata",
-      "arias websterberry",
-      "olivia frimpong kwapong",
-      "darlington akogo",
-      "jason hickey",
-      "maxwell ababio",
-      "andreas horn",
-      "danny manu",
-      "reginald ankrah",
-      "nina korley",
-      "kayode akomolafe",
-      "joseph kweku assan",
-      "paul crafer",
-      "george adjabeng",
-      "tim schneller",
-      "edward aikins",
-      "yaw nsarkoh",
-      "akwasi obeng-adjei",
-      "richard quainoo",
-      "joshua odoi",
-      "emmanuel apetsi",
-      "kobby mensah",
-      "ayo jones",
-      "eugene allotey",
-      "vincent tetteh",
-      "festus asare-yeboah",
-      "g. ayorkor korsah",
-      "titi akinsanmi",
-      "abena nyamesem",
-      "naa adoley azu",
-      "tom-chris emewulu",
-      "bertha akua asare",
-    ];
-
-    // Check if asking about a specific speaker
-    for (const name of speakerNames) {
-      if (lowerMessage.includes(name)) {
-        // Find the speaker
-        const speaker = this.findSpeakerByName(name);
-        if (speaker) {
-          return (
-            `🎤 **${speaker.name}**\n\n` +
-            `**Title:** ${speaker.title}${speaker.company ? ` at ${speaker.company}` : ""}${speaker.institution ? ` at ${speaker.institution}` : ""}\n` +
-            `**Expertise:** ${speaker.expertise.join(", ")}\n` +
-            `**Bio:** ${speaker.bio}\n` +
-            `${speaker.country ? `**Country:** ${speaker.country}\n` : ""}` +
-            `${speaker.profileUrl ? `**Profile:** ${speaker.profileUrl}\n` : ""}` +
-            `${speaker.linkedin ? `**LinkedIn:** ${speaker.linkedin}\n` : ""}\n` +
-            `Would you like to know about other speakers or have any other questions about the summit? 🌟`
-          );
-        }
-      }
-    }
-
-    // Check for general speaker questions
-    if (
-      lowerMessage.includes("speaker") &&
-      !lowerMessage.includes("apply") &&
-      !lowerMessage.includes("call")
-    ) {
-      return `🎤 The Pan African AI Summit 2026 features an incredible lineup of over 36 distinguished speakers! 
-
-**Notable speakers include:**
-- **Hon. Sam George** - Minister of Communication, Ghana
-- **Darlington Akogo** - Founder of minoHealth AI & UN AI for Radiology Chair
-- **Dr. Jason Hickey** - Former Head of Google Research Africa
-- **Emmanuel Apetsi** - CEO of SISU AI & Exec. Director of OpenAI4Africa
-- **Prof. Olivia Frimpong Kwapong** - Dean at University of Ghana
-- **Titi Akinsanmi** - Global Policy Team Lead at Google
-
-You can ask me about specific speakers by name, expertise, or country! For example:
-- "Tell me about Darlington Akogo"
-- "Who are the government ministers speaking?"
-- "Find speakers in healthcare AI"
-
-Who would you like to know more about? 🌟`;
-    }
-
-    // Check for call for speakers (different topic)
-    if (
-      lowerMessage.includes("apply to speak") ||
-      lowerMessage.includes("call for speakers")
-    ) {
-      return `🎤 **Speaker Opportunities at PAAIS 2026**
-
-We're looking for speakers in Ethical AI, African LLMs, Healthcare AI, AgriTech, and EduTech. 
-
-**Application Details:**
-- Apply here: [panafricanaisummit.com/call-for-speakers](https://panafricanaisummit.com/speaker-registration)
-- Deadline: June 30, 2026
-
-Would you like to know more about the confirmed speakers for this year's summit? 🎤`;
-    }
-
-    if (lowerMessage.includes("date") || lowerMessage.includes("when")) {
-      return `📅 The Pan African AI Summit 2026 will take place on **September 22-23, 2026** at the Kempinski Hotel Gold Coast City in Accra, Ghana. Mark your calendar for two days of AI innovation! 🚀`;
-    }
-
-    if (lowerMessage.includes("register") || lowerMessage.includes("sign up")) {
-      return `🎟️ Registration for PAAIS 2026 is **FREE**! Secure your spot at: [panafricanaisummit.com/register-2026](https://panafricanaisummit.com/participate)
-
-Early registration is recommended as capacity is limited to 1,000 attendees. What would you like to know about the summit? 🌍`;
-    }
-
-    if (lowerMessage.includes("theme")) {
-      return `🎯 The 2026 theme is **'Scaling Africa's Ethical AI Ecosystem: Youth Empowerment, Policy, Partnerships, and Skill'** - focusing on turning strategy into actionable implementation across the continent. This aligns perfectly with our diverse speaker lineup! 💡`;
-    }
-
-    return `🤖 Hello! I'm PAAIS Junior, your guide to the Pan African AI Summit 2026! I can help you with:
-- 🎤 **Speaker information** (36+ confirmed experts!)
-- 📅 Summit dates and venue
-- 🎟️ Free registration
-- 🤝 Sponsorship opportunities
-- 📚 Agenda and themes
-- 🌍 Participation details
-
-**Try asking:**
-- "Who are the speakers?"
-- "Tell me about Darlington Akogo"
-- "What are the summit dates?"
-- "How do I register?"
-
-What would you like to know about? 🌟`;
-  }
-
-  findSpeakerByName(name) {
-    const speakers = [
-      {
-        name: "Hon. Sam George",
-        title: "Minister of Communication, Digital Technology and Innovations",
-        company: null,
-        institution: null,
-        country: "Ghana",
-        bio: "Leading Ghana's digital transformation agenda and technology policy development.",
-        expertise: [
-          "Digital Policy",
-          "Technology Innovation",
-          "Communications",
-          "Digital Transformation",
-        ],
-        type: "Government",
-      },
-      {
-        name: "Hon. George Opare Addo",
-        title: "Minister of Youth Development & Empowerment",
-        company: null,
-        institution: null,
-        country: "Ghana",
-        bio: "Driving youth empowerment initiatives and skills development programs.",
-        expertise: [
-          "Youth Development",
-          "Skills Training",
-          "Empowerment",
-          "Digital Economy",
-        ],
-        type: "Government",
-      },
-      {
-        name: "Darlington Akogo",
-        title: "Founder & CEO",
-        company: "minoHealth AI",
-        institution: null,
-        country: "Ghana",
-        bio: "Pioneering AI solutions for healthcare and agriculture in Africa. UN AI for Radiology Chair.",
-        expertise: [
-          "Healthcare AI",
-          "Agricultural AI",
-          "UN Initiatives",
-          "Global Health",
-        ],
-        type: "Tech Entrepreneur",
-        profileUrl: "https://panafricanaisummit.com/darlington",
-      },
-      {
-        name: "Dr. Jason Hickey",
-        title: "Former Head",
-        company: "Google Research Africa",
-        institution: null,
-        bio: "Led Google's AI research initiatives across Africa.",
-        expertise: [
-          "AI Research",
-          "Machine Learning",
-          "Research Leadership",
-          "African AI",
-        ],
-        type: "Tech Leader",
-        profileUrl: "https://panafricanaisummit.com/jason",
-      },
-      {
-        name: "Emmanuel Apetsi",
-        title: "AI/ML Engineer",
-        company: "SISU AI",
-        institution: null,
-        bio: "Leading AI development and open source AI initiatives in Africa.",
-        expertise: [
-          "AI/ML Engineering",
-          "Open Source AI",
-          "African AI",
-          "Technical Leadership",
-        ],
-        type: "Tech Entrepreneur",
-        profileUrl: "https://panafricanaisummit.com/emmanuel",
-      },
-      {
-        name: "Prof. Olivia A. T. Frimpong Kwapong",
-        title: "Dean - School of Continuing and Distance Education",
-        company: null,
-        institution: "University of Ghana",
-        bio: "Leading distance education initiatives and digital youth development programs.",
-        expertise: [
-          "Distance Education",
-          "Digital Youth Development",
-          "Educational Technology",
-        ],
-        type: "Academia",
-        profileUrl: "https://panafricanaisummit.com/olivia",
-      },
-      {
-        name: "Titi Akinsanmi",
-        title: "Global Policy Team Lead",
-        company: "Google",
-        institution: null,
-        bio: "Leading AI safety and responsible AI policy at Google.",
-        expertise: [
-          "AI Policy",
-          "AI Safety",
-          "Responsible AI",
-          "Generative AI",
-        ],
-        type: "Tech Leader",
-        profileUrl: "https://panafricanaisummit.com/tiki-akinsanmi",
-      },
-    ];
-
-    const searchName = name.toLowerCase();
-    return speakers.find((s) => s.name.toLowerCase().includes(searchName));
-  }
+  // ============================================
+  // UTILITY METHODS
+  // ============================================
 
   async testConnection() {
     try {
       console.log("[GeminiService] Testing API connection...");
-
       const response = await this.ai.models.generateContent({
         model: this.modelName,
-        contents: [{ role: "user", parts: [{ text: "Say hello" }] }],
-        config: {
-          temperature: 0.7,
-          maxOutputTokens: 50,
-        },
+        contents: "Say 'PAAIS Junior connected!'",
+        config: { maxOutputTokens: 50 },
       });
-
-      console.log(
-        "[GeminiService] Connection test successful:",
-        response.text.substring(0, 50),
-      );
-      return {
-        success: true,
-        message: "API connection successful",
-        model: this.modelName,
-      };
+      console.log("[GeminiService] Connection successful");
+      return { success: true };
     } catch (error) {
-      console.error("[GeminiService] Connection test failed:", error.message);
-      return {
-        success: false,
-        error: error.message,
-        model: this.modelName,
-      };
+      console.error("[GeminiService] Connection failed:", error.message);
+      return { success: false, error: error.message };
     }
   }
 

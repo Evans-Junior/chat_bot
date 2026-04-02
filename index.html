@@ -340,6 +340,32 @@
           animation: typing 1.4s infinite;
         }
 
+        .thinking-indicator {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 18px 22px;
+          background: rgba(144, 38, 200, 0.2);
+          border-radius: 22px;
+          border: 1px solid var(--accent-purple);
+          width: fit-content;
+        }
+
+        .thinking-indicator i {
+          font-size: 18px;
+          color: var(--accent-light);
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
         .chat-input-container {
           padding: 24px 28px;
           border-top: 1px solid var(--white-20);
@@ -772,6 +798,23 @@
           animation: typing 1.4s infinite;
         }
 
+        .thinking-indicator {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 16px;
+          background: rgba(144, 38, 200, 0.2);
+          border-radius: 18px;
+          border: 1px solid var(--accent-purple);
+          width: fit-content;
+        }
+
+        .thinking-indicator i {
+          font-size: 16px;
+          color: var(--accent-light);
+          animation: spin 1s linear infinite;
+        }
+
         .chat-input-container {
           padding: 16px;
           background: rgba(0, 8, 80, 0.95);
@@ -897,6 +940,15 @@
         to {
           opacity: 1;
           transform: translateY(0);
+        }
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
         }
       }
 
@@ -1096,6 +1148,9 @@
               >
                 <i class="fas fa-landmark"></i> Hon. Sam George
               </button>
+              <button class="suggestion-button" onclick="clearChat()">
+                <i class="fas fa-trash"></i> Clear Chat
+              </button>
             </div>
           </div>
         </div>
@@ -1257,7 +1312,7 @@
       // ============================================
       // BACKEND API CONFIGURATION
       // ============================================
-      const API_BASE_URL = "https://chat-bot-w933.onrender.com"; // Change this to your backend URL
+      const API_BASE_URL = "https://chat-bot-w933.onrender.com";
 
       // DOM Elements
       const chatMessages = document.getElementById("chatMessages");
@@ -1281,11 +1336,15 @@
       // State
       let messageCount = 0;
       let totalResponseTime = 0;
-      let isTyping = false;
+      let isThinking = false;
       let currentPollingInterval = null;
       let sessionId =
-        localStorage.getItem("paais_session_id") || `session_${Date.now()}`;
+        localStorage.getItem("paais_session_id") ||
+        `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       localStorage.setItem("paais_session_id", sessionId);
+
+      // Maximum messages to keep in history (prevents context overload)
+      const MAX_HISTORY_MESSAGES = 20; // Keep only last 20 messages
 
       // Welcome message content
       const welcomeMessage = {
@@ -1314,6 +1373,9 @@
         messageInput.addEventListener("input", autoResizeTextarea);
         loadChatHistory();
 
+        // Clean up old messages if needed
+        cleanupOldMessages();
+
         // Test backend connection on startup
         testBackendConnection();
 
@@ -1332,6 +1394,25 @@
           );
         }, 1000);
       });
+
+      // Clean up old messages to prevent context overload
+      function cleanupOldMessages() {
+        const messages = chatMessages.querySelectorAll(
+          ".message:not(.welcome-message)",
+        );
+        if (messages.length > MAX_HISTORY_MESSAGES) {
+          const messagesToRemove = messages.length - MAX_HISTORY_MESSAGES;
+          for (let i = 0; i < messagesToRemove; i++) {
+            if (messages[i]) {
+              messages[i].remove();
+            }
+          }
+          showNotification(
+            `Cleared ${messagesToRemove} old messages to improve performance`,
+            "info",
+          );
+        }
+      }
 
       // Test backend connection
       async function testBackendConnection() {
@@ -1434,9 +1515,33 @@
         autoResizeTextarea();
       }
 
-      // Poll for response
-      async function pollForResponse(taskId, startTime) {
-        const maxAttempts = 60; // 60 seconds max
+      // Show thinking indicator
+      function showThinkingIndicator() {
+        if (isThinking) return;
+
+        isThinking = true;
+        const thinkingDiv = document.createElement("div");
+        thinkingDiv.className = "thinking-indicator";
+        thinkingDiv.id = "thinkingIndicator";
+        thinkingDiv.innerHTML = `
+          <i class="fas fa-brain"></i>
+          <span>PAAIS Junior is thinking...</span>
+        `;
+        chatMessages.appendChild(thinkingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      // Hide thinking indicator
+      function hideThinkingIndicator() {
+        isThinking = false;
+        const thinkingIndicator = document.getElementById("thinkingIndicator");
+        if (thinkingIndicator) thinkingIndicator.remove();
+      }
+
+      // Poll for response with retry logic
+      async function pollForResponse(taskId, startTime, retryCount = 0) {
+        const maxRetries = 3;
+        const maxAttempts = 60;
         let attempts = 0;
 
         if (currentPollingInterval) {
@@ -1449,13 +1554,13 @@
           if (attempts > maxAttempts) {
             clearInterval(currentPollingInterval);
             currentPollingInterval = null;
-            hideTypingIndicator();
+            hideThinkingIndicator();
             addMessage(
               "bot",
-              "⏰ Sorry, the request timed out. Please try again.",
+              "⏰ The request is taking longer than expected. Please try again or ask a simpler question.",
             );
             sendButton.disabled = false;
-            showNotification("Request timed out", "warning");
+            showNotification("Request timeout", "warning");
             return;
           }
 
@@ -1470,7 +1575,7 @@
             if (data.status === "completed") {
               clearInterval(currentPollingInterval);
               currentPollingInterval = null;
-              hideTypingIndicator();
+              hideThinkingIndicator();
 
               if (data.response && data.response.message) {
                 addMessage("bot", data.response.message);
@@ -1482,32 +1587,45 @@
                   responseTimeEl.textContent = `${avgTime}ms`;
                 }
 
-                showNotification("Response received!", "success");
+                showNotification(
+                  `Response received in ${Math.round(responseTime / 1000)}s`,
+                  "success",
+                );
               } else {
-                addMessage("bot", "⚠️ Received empty response from server.");
+                addMessage(
+                  "bot",
+                  "⚠️ Received empty response. Please try again.",
+                );
               }
               sendButton.disabled = false;
+              cleanupOldMessages(); // Clean up after response
             } else if (data.status === "failed") {
               clearInterval(currentPollingInterval);
               currentPollingInterval = null;
-              hideTypingIndicator();
+              hideThinkingIndicator();
               addMessage(
                 "bot",
-                `❌ Error: ${data.error || "Failed to process request"}`,
+                `❌ ${data.error || "Failed to process request. Please try again."}`,
               );
               sendButton.disabled = false;
               showNotification("Request failed", "error");
             } else if (data.status === "processing") {
               // Still processing, continue polling
-              if (attempts === 1) {
-                showNotification("Processing your request...", "info");
+              if (attempts === 5) {
+                showNotification("AI is processing your request...", "info");
               }
             }
           } catch (error) {
             console.error("Polling error:", error);
-            // Continue polling on network errors
+            if (attempts === maxAttempts - 5) {
+              // Retry logic on network errors
+              if (retryCount < maxRetries) {
+                console.log(`Retry ${retryCount + 1} for task ${taskId}`);
+                pollForResponse(taskId, startTime, retryCount + 1);
+              }
+            }
           }
-        }, 1000); // Poll every second
+        }, 1000);
       }
 
       // Send message to backend
@@ -1530,13 +1648,14 @@
         messageCount++;
         if (messagesCountEl) messagesCountEl.textContent = messageCount;
 
-        // Show typing indicator
-        showTypingIndicator();
+        // Show thinking indicator
+        showThinkingIndicator();
 
         const startTime = Date.now();
 
         try {
           console.log(`📤 Sending to backend: ${message}`);
+          console.log(`📝 Session ID: ${sessionId}`);
 
           const response = await fetch(`${API_BASE_URL}/api/bot/chat`, {
             method: "POST",
@@ -1555,12 +1674,9 @@
           if (data.success && data.taskId) {
             // Start polling for the response
             pollForResponse(data.taskId, startTime);
-            showNotification(
-              "Request submitted, waiting for response...",
-              "info",
-            );
+            showNotification("Request submitted, AI is thinking...", "info");
           } else {
-            hideTypingIndicator();
+            hideThinkingIndicator();
             addMessage(
               "bot",
               `❌ Error: ${data.message || data.error || "Please try again."}`,
@@ -1570,7 +1686,7 @@
           }
         } catch (error) {
           console.error("❌ Network error:", error);
-          hideTypingIndicator();
+          hideThinkingIndicator();
           addMessage(
             "bot",
             `⚠️ Cannot connect to backend server at ${API_BASE_URL}\n\nPlease make sure your server is running.\n\nError: ${error.message}`,
@@ -1612,6 +1728,11 @@
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         saveChatHistory();
+
+        // Clean up old messages if too many
+        if (chatMessages.children.length > MAX_HISTORY_MESSAGES + 5) {
+          cleanupOldMessages();
+        }
       }
 
       // Format message with links and styling
@@ -1625,29 +1746,17 @@
         return formatted;
       }
 
-      // Show typing indicator
-      function showTypingIndicator() {
-        if (isTyping) return;
-
-        isTyping = true;
-        const typingDiv = document.createElement("div");
-        typingDiv.className = "typing-indicator";
-        typingDiv.id = "typingIndicator";
-        typingDiv.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
-        chatMessages.appendChild(typingDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-
-      // Hide typing indicator
-      function hideTypingIndicator() {
-        isTyping = false;
-        const typingIndicator = document.getElementById("typingIndicator");
-        if (typingIndicator) typingIndicator.remove();
-      }
-
       // Clear chat
       function clearChat() {
-        if (confirm("Clear all chat messages?")) {
+        if (
+          confirm("Clear all chat messages? This will reset the conversation.")
+        ) {
+          // Stop any ongoing polling
+          if (currentPollingInterval) {
+            clearInterval(currentPollingInterval);
+            currentPollingInterval = null;
+          }
+
           chatMessages.innerHTML = "";
           addWelcomeMessage();
           messageCount = 0;
@@ -1655,7 +1764,13 @@
           totalResponseTime = 0;
           if (responseTimeEl) responseTimeEl.textContent = "-";
           localStorage.removeItem("paais_chat_history");
-          showNotification("Chat cleared successfully", "success");
+          // Generate new session ID for fresh start
+          sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+          localStorage.setItem("paais_session_id", sessionId);
+          showNotification(
+            "Chat cleared! Starting fresh conversation.",
+            "success",
+          );
         }
       }
 
@@ -1665,7 +1780,8 @@
           "bot",
           `🤖 **PAAIS Junior v2.0**\n\n` +
             `**Backend:** ${API_BASE_URL}\n` +
-            `**Session ID:** ${sessionId.substring(0, 16)}...\n\n` +
+            `**Session ID:** ${sessionId.substring(0, 16)}...\n` +
+            `**Max History:** ${MAX_HISTORY_MESSAGES} messages\n\n` +
             `**Capabilities:**\n` +
             `• Answer about 36+ confirmed speakers\n` +
             `• Provide registration information\n` +
@@ -1716,15 +1832,19 @@
       // Save chat history
       function saveChatHistory() {
         const messages = [];
-        document
-          .querySelectorAll(".message:not(.welcome-message)")
-          .forEach((msg) => {
-            const sender = msg.classList.contains("user-message")
-              ? "user"
-              : "bot";
-            const content = msg.querySelector(".message-content").innerHTML;
-            messages.push({ sender, content });
-          });
+        // Save only last MAX_HISTORY_MESSAGES messages to prevent localStorage overflow
+        const messageElements = Array.from(
+          chatMessages.querySelectorAll(".message:not(.welcome-message)"),
+        );
+        const messagesToSave = messageElements.slice(-MAX_HISTORY_MESSAGES);
+
+        messagesToSave.forEach((msg) => {
+          const sender = msg.classList.contains("user-message")
+            ? "user"
+            : "bot";
+          const content = msg.querySelector(".message-content").innerHTML;
+          messages.push({ sender, content });
+        });
         localStorage.setItem("paais_chat_history", JSON.stringify(messages));
       }
 
@@ -1740,7 +1860,10 @@
           if (welcomeMsg) chatMessages.appendChild(welcomeMsg);
           else addWelcomeMessage();
 
-          messages.forEach((msg) => {
+          // Load only last MAX_HISTORY_MESSAGES messages
+          const messagesToLoad = messages.slice(-MAX_HISTORY_MESSAGES);
+
+          messagesToLoad.forEach((msg) => {
             const messageDiv = document.createElement("div");
             messageDiv.className = `message ${msg.sender}-message`;
             const time = new Date().toLocaleTimeString([], {
@@ -1764,7 +1887,9 @@
             chatMessages.appendChild(messageDiv);
           });
 
-          messageCount = messages.filter((m) => m.sender === "user").length;
+          messageCount = messagesToLoad.filter(
+            (m) => m.sender === "user",
+          ).length;
           if (messagesCountEl) messagesCountEl.textContent = messageCount;
           chatMessages.scrollTop = chatMessages.scrollHeight;
         } catch (e) {

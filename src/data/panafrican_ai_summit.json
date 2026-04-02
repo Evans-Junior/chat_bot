@@ -114,9 +114,97 @@
     }
   },
 
+  "organizers": {
+    "title": "Summit Organizers & Partners",
+    "host": {
+      "name": "Government of Ghana",
+      "role": "Host Country",
+      "description": "The Government of Ghana is the proud host of the Pan African AI Summit 2026, demonstrating its commitment to positioning Ghana as Africa's digital hub and AI innovation center."
+    },
+    "lead_organizer": {
+      "name": "Ministry of Communication, Digital Technology and Innovations",
+      "minister": "Hon. Sam George",
+      "role": "Lead Organizer",
+      "description": "The Ministry leads the strategic direction of the summit, ensuring alignment with Ghana's digital transformation agenda and technology policy framework."
+    },
+    "co_organizers": [
+      {
+        "name": "Ministry of Youth Development & Empowerment",
+        "minister": "Hon. George Opare Addo",
+        "role": "Co-Organizer",
+        "description": "Focusing on youth engagement, skills development programs, and creating opportunities for young African innovators."
+      },
+      {
+        "name": "Data Protection Commission",
+        "role": "Co-Organizer",
+        "description": "Ensuring data privacy, ethical AI governance, and responsible technology implementation."
+      }
+    ],
+    "strategic_partners": [
+      {
+        "name": "Google",
+        "role": "Strategic Technology Partner",
+        "description": "Providing AI expertise, cloud infrastructure, technical support, and access to global AI research networks."
+      },
+      {
+        "name": "AWS (Amazon Web Services)",
+        "role": "Cloud Computing Partner",
+        "description": "Supporting AI infrastructure, cloud solutions, and providing cloud credits for African startups."
+      },
+      {
+        "name": "MTN Ghana",
+        "role": "Telecommunications Partner",
+        "description": "Providing connectivity, digital infrastructure, and mobile technology expertise."
+      },
+      {
+        "name": "Accenture",
+        "role": "AI Consulting Partner",
+        "description": "Supporting AI strategy, implementation frameworks, and digital transformation initiatives."
+      }
+    ],
+    "academic_partners": [
+      {
+        "name": "University of Ghana",
+        "role": "Academic Partner",
+        "description": "Hosting academic sessions, research collaborations, and contributing to AI education."
+      },
+      {
+        "name": "Ashesi University",
+        "role": "Academic Partner",
+        "description": "Contributing to AI education, research tracks, and innovation programs."
+      },
+      {
+        "name": "Kwame Nkrumah University of Science and Technology (KNUST)",
+        "role": "Academic Partner",
+        "description": "Supporting technical sessions and research presentations."
+      }
+    ],
+    "supporting_organizations": [
+      {
+        "name": "Deloitte",
+        "role": "Advisory Partner",
+        "description": "Providing strategic advisory services and business transformation expertise."
+      },
+      {
+        "name": "Société Générale",
+        "role": "Financial Services Partner",
+        "description": "Supporting fintech tracks and AI in banking sessions."
+      },
+      {
+        "name": "Ghana-India Kofi Annan Centre of Excellence in ICT",
+        "role": "Technical Partner",
+        "description": "Supporting technical workshops and capacity building programs."
+      }
+    ],
+    "contact": {
+      "email": "info@panafricanaisummit.africa",
+      "phone": "+233 XX XXX XXXX",
+      "website": "https://panafricanaisummit.com"
+    }
+  },
+
   "ui_config": {
     "welcome_message": "Welcome to the Pan African AI Summit Assistant! I'm here to help you prepare for our next gathering on September 22nd - 23rd, 2026 in Accra, Ghana. What would you like to explore?",
-
     "quick_replies": [
       {
         "title": "📅 Event Details 2026",
@@ -131,10 +219,16 @@
         "icon": "ticket"
       },
       {
-        "title": "🎤 Speaker Opportunities",
+        "title": "🎤 Speakers",
         "payload": "speakers",
-        "description": "Apply to speak",
+        "description": "Meet our speakers",
         "icon": "mic"
+      },
+      {
+        "title": "🏛️ Organizers",
+        "payload": "organizers",
+        "description": "Who is organizing",
+        "icon": "building"
       },
       {
         "title": "🤝 Sponsor/Partner",
@@ -149,7 +243,6 @@
         "icon": "question"
       }
     ],
-
     "live_support": {
       "text": "Need human assistance?",
       "button": "Connect to Human",
@@ -160,45 +253,46 @@
 
   "event_details": {
     "intro": "The Pan African AI Summit (PAAIS) is Africa's premier platform for AI innovation and policy. Here are the details for our 2026 edition:",
-
     "theme": "Scaling Africa's Ethical AI Ecosystem: Youth Empowerment, Policy, Partnerships, and Skill",
-
     "location": {
       "venue": "Kempinski Hotel Gold Coast City",
       "address": "Airport Residential Area, Accra, Ghana",
       "map_url": "https://maps.google.com/?q=Kempinski+Hotel+Gold+Coast+City+Accra",
       "airport_distance": "10 minutes from Kotoka International Airport"
     },
-
     "dates": {
       "start": "2026-09-22",
       "end": "2026-09-23",
       "duration_days": 2
     },
-
     "agenda": {
       "day1": {
         "date": "September 22, 2026",
         "sessions": [
-          "08:00 AM - Registration",
-          "09:00 AM - Opening Ceremony & Keynotes",
-          "11:00 AM - Plenary Sessions",
-          "02:00 PM - Masterclasses",
-          "04:00 PM - AI Pitch Competition",
-          "06:00 PM - Networking Reception"
+          "08:00 AM - Registration Opens",
+          "09:00 AM - Opening Ceremony & Keynote Address by Hon. Sam George",
+          "10:00 AM - Plenary Session 1: Scaling Africa's Ethical AI",
+          "11:30 AM - Panel Discussion: AI Policy & Governance",
+          "01:00 PM - Lunch & Networking",
+          "02:00 PM - Masterclass: Building LLMs for African Languages",
+          "04:00 PM - AI Pitch Competition (Startup Showcase)",
+          "06:00 PM - Welcome Reception & Networking"
         ]
       },
       "day2": {
         "date": "September 23, 2026",
         "sessions": [
-          "09:00 AM - Keynotes",
-          "10:30 AM - Panel Discussions",
-          "01:00 PM - Ministerial Roundtables",
-          "03:00 PM - Closing Ceremony"
+          "09:00 AM - Keynote: Dr. Jason Hickey (ex-Google Research Africa)",
+          "10:30 AM - Panel: AI in Healthcare & Agriculture",
+          "12:00 PM - Ministerial Roundtable: Youth Empowerment in AI",
+          "01:00 PM - Lunch & Networking",
+          "02:00 PM - Breakout Sessions (5 tracks)",
+          "04:00 PM - Fireside Chat with Industry Leaders",
+          "05:00 PM - Closing Ceremony & Awards",
+          "06:30 PM - Gala Dinner (by invitation)"
         ]
       }
     },
-
     "faqs": [
       {
         "id": "event_1",
@@ -219,34 +313,594 @@
         "id": "event_4",
         "question": "What can I expect from the program?",
         "answer": "The two-day agenda includes keynote speeches from international AI pioneers, panel and plenary sessions, one-on-one interviews with tech leaders, hands-on masterclasses for technical skill-building, AI pitch competition for startups, and VIP networking sessions."
+      },
+      {
+        "id": "event_5",
+        "question": "Who is organizing the summit?",
+        "answer": "The summit is organized by the Ministry of Communication, Digital Technology and Innovations of Ghana, in partnership with the Ministry of Youth Development & Empowerment. Strategic partners include Google, AWS, MTN Ghana, Accenture, and academic partners like University of Ghana and Ashesi University."
+      },
+      {
+        "id": "event_6",
+        "question": "Who are the main sponsors?",
+        "answer": "Our main sponsors include Google, AWS, MTN Ghana, Accenture, Deloitte, and Société Générale. We also have support from various academic and government institutions across Africa."
+      },
+      {
+        "id": "event_7",
+        "question": "Is there a virtual attendance option?",
+        "answer": "Yes! The summit will be hybrid, allowing both in-person and virtual attendance. Virtual participants will have access to live streams of all plenary sessions and select breakout sessions."
+      },
+      {
+        "id": "event_8",
+        "question": "Are there networking opportunities?",
+        "answer": "Absolutely! We have dedicated networking sessions, a welcome reception, lunch breaks, and a gala dinner. There's also a networking app to connect with other attendees before, during, and after the event."
       }
     ],
-
     "accommodation": [
       {
         "name": "Kempinski Hotel Gold Coast City",
         "type": "Venue Hotel",
         "distance": "On-site",
-        "contact": "https://www.kempinski.com/accra"
+        "contact": "https://www.kempinski.com/accra",
+        "rate": "Special summit rates available"
       },
       {
         "name": "Movenpick Ambassador Hotel",
         "type": "Partner Hotel",
         "distance": "5 minutes away",
-        "contact": "https://www.movenpick.com/accra"
+        "contact": "https://www.movenpick.com/accra",
+        "rate": "Discounted rates for attendees"
       },
       {
         "name": "Accra Marriott Hotel",
         "type": "Recommended",
         "distance": "10 minutes away",
-        "contact": "https://www.marriott.com/accra"
+        "contact": "https://www.marriott.com/accra",
+        "rate": "Corporate rates available"
+      },
+      {
+        "name": "Airport View Hotel",
+        "type": "Budget Friendly",
+        "distance": "5 minutes away",
+        "contact": "https://airportviewhotel.com",
+        "rate": "Affordable rates"
+      }
+    ]
+  },
+
+  "speakers_list": {
+    "total": 36,
+    "featured": [
+      {
+        "name": "Hon. Sam George",
+        "title": "Minister of Communication, Digital Technology and Innovations",
+        "country": "Ghana",
+        "bio": "Leading Ghana's digital transformation agenda and technology policy development. Driving the country's digitalization efforts and innovation ecosystem. Keynote speaker at the opening ceremony.",
+        "expertise": [
+          "Digital Policy",
+          "Technology Innovation",
+          "Communications",
+          "Digital Transformation"
+        ],
+        "type": "Government",
+        "featured": true,
+        "session": "Opening Keynote"
+      },
+      {
+        "name": "Hon. George Opare Addo",
+        "title": "Minister of Youth Development & Empowerment",
+        "country": "Ghana",
+        "bio": "Driving youth empowerment initiatives, skills development programs, and creating opportunities for young people in the digital economy. Leading the Youth in AI track.",
+        "expertise": [
+          "Youth Development",
+          "Skills Training",
+          "Empowerment",
+          "Digital Economy"
+        ],
+        "type": "Government",
+        "featured": true,
+        "session": "Youth Empowerment in AI"
+      },
+      {
+        "name": "Darlington Akogo",
+        "title": "Founder & CEO",
+        "company": "minoHealth AI",
+        "other": "AI for Radiology Chair, United Nations",
+        "country": "Ghana",
+        "bio": "Pioneering AI solutions for healthcare and agriculture in Africa. Leading UN initiatives on AI in radiology and global health. Founder of KaraAgro AI for agricultural solutions.",
+        "expertise": [
+          "Healthcare AI",
+          "Agricultural AI",
+          "UN Initiatives",
+          "Global Health"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/darlington",
+        "type": "Tech Entrepreneur",
+        "featured": true,
+        "session": "AI in Healthcare & Agriculture"
+      },
+      {
+        "name": "Dr. Jason Hickey",
+        "title": "Former Head",
+        "company": "Google Research Africa",
+        "bio": "Led Google's AI research initiatives across Africa. Expert in machine learning research and AI development on the continent. Currently advising on AI strategy for African governments.",
+        "expertise": [
+          "AI Research",
+          "Machine Learning",
+          "Research Leadership",
+          "African AI"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/jason",
+        "type": "Tech Leader",
+        "featured": true,
+        "session": "Keynote: The Future of AI in Africa"
+      },
+      {
+        "name": "Emmanuel Apetsi",
+        "title": "AI/ML Engineer",
+        "roles": ["CEO, SISU AI", "Exec. Director, OpenAI4Africa"],
+        "bio": "Leading AI development and open source AI initiatives in Africa. Expert in AI/ML engineering and open source contributions. Driving the Open Source AI movement across the continent.",
+        "expertise": [
+          "AI/ML Engineering",
+          "Open Source AI",
+          "African AI",
+          "Technical Leadership"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/emmanuel",
+        "type": "Tech Entrepreneur",
+        "featured": true,
+        "session": "Open Source AI for Africa"
+      },
+      {
+        "name": "Prof. Olivia A. T. Frimpong Kwapong",
+        "title": "Dean - School of Continuing and Distance Education",
+        "institution": "University of Ghana",
+        "other": "Director - Digital Youth Village",
+        "bio": "Leading distance education initiatives and digital youth development programs. Expert in educational technology and lifelong learning. Pioneer in digital education in Ghana.",
+        "expertise": [
+          "Distance Education",
+          "Digital Youth Development",
+          "Educational Technology",
+          "Lifelong Learning"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/olivia",
+        "type": "Academia",
+        "featured": true,
+        "session": "AI in Education"
+      },
+      {
+        "name": "Titi Akinsanmi",
+        "title": "Global Policy Team Lead, Gemini & Gen AI Safety & Responsibility",
+        "company": "Google",
+        "bio": "Leading AI safety and responsible AI policy at Google. Expert in generative AI governance and safety frameworks. Shaping global AI policy and responsible AI practices.",
+        "expertise": [
+          "AI Policy",
+          "AI Safety",
+          "Responsible AI",
+          "Generative AI"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/tiki-akinsanmi",
+        "type": "Tech Leader",
+        "featured": true,
+        "session": "Responsible AI & Policy"
+      }
+    ],
+    "all_speakers": [
+      {
+        "name": "Reuben Opata",
+        "title": "Chief Technology Officer",
+        "company": "MTN Ghana",
+        "country": "Ghana",
+        "bio": "Leading technological innovation and digital transformation at MTN Ghana. Driving 5G adoption and mobile AI solutions across the country.",
+        "expertise": [
+          "Telecom Technology",
+          "Digital Transformation",
+          "5G",
+          "Mobile Innovation"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/opata",
+        "type": "Industry",
+        "session": "Telecom & AI"
+      },
+      {
+        "name": "Arias WebsterBerry",
+        "title": "CEO & Founder",
+        "company": "Arias WebsterBerry Marketing",
+        "bio": "Marketing expert specializing in brand development, digital marketing strategies, and business growth. Helping African tech brands scale globally.",
+        "expertise": [
+          "Marketing Strategy",
+          "Brand Development",
+          "Digital Marketing",
+          "Business Growth"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/arias",
+        "type": "Industry",
+        "session": "AI Marketing"
+      },
+      {
+        "name": "MAXWELL ABABIO",
+        "title": "Deputy Director, Technology & Ethics",
+        "institution": "Data Protection Commission",
+        "bio": "Leading data protection and ethical AI governance initiatives. Expert in privacy regulations and responsible technology implementation.",
+        "expertise": [
+          "Data Protection",
+          "AI Ethics",
+          "Technology Governance",
+          "Privacy"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/maxwell",
+        "type": "Government",
+        "session": "Data Protection & AI Ethics"
+      },
+      {
+        "name": "Andreas Horn",
+        "title": "Cloud Architect - Data Engineering & Machine Learning",
+        "company": "Google",
+        "country": "Germany",
+        "bio": "Expert in cloud architecture, data engineering, and machine learning infrastructure. Helping African organizations build scalable AI systems.",
+        "expertise": [
+          "Cloud Architecture",
+          "Data Engineering",
+          "Machine Learning",
+          "MLOps"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/festus-Eo2UTR",
+        "type": "Tech Leader",
+        "session": "MLOps & Cloud Infrastructure"
+      },
+      {
+        "name": "Danny Manu",
+        "title": "Innovative Entrepreneur & Angel Investor",
+        "company": "Mymanu® UK",
+        "bio": "Serial entrepreneur and investor in innovative technology. Founder of Mymanu, creating cutting-edge consumer tech products. Angel investor in African startups.",
+        "expertise": [
+          "Entrepreneurship",
+          "Angel Investing",
+          "Product Innovation",
+          "Consumer Tech"
+        ],
+        "linkedin": "https://www.linkedin.com/in/dannymanu/",
+        "type": "Investor",
+        "session": "Startup Investment"
+      },
+      {
+        "name": "Reginald Ankrah",
+        "title": "AI Consultant",
+        "company": "Accenture UK",
+        "specialty": "Building Trustworthy AI in Africa",
+        "bio": "Expert in responsible AI implementation and trustworthy AI systems in African contexts. Helping organizations build ethical AI solutions that work for Africa.",
+        "expertise": [
+          "Trustworthy AI",
+          "AI Implementation",
+          "Responsible AI",
+          "African AI"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/reginald",
+        "type": "Consultant",
+        "session": "Trustworthy AI"
+      },
+      {
+        "name": "Nina Korley",
+        "title": "Associate Director, Cyber Strategy & Transformation",
+        "bio": "Leading cybersecurity strategy and digital transformation initiatives. Expert in cyber risk management and security governance for AI systems.",
+        "expertise": [
+          "Cybersecurity",
+          "Digital Transformation",
+          "Strategy",
+          "Risk Management"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/nina",
+        "type": "Consultant",
+        "session": "AI Security"
+      },
+      {
+        "name": "Kayode Akomolafe",
+        "title": "Commercial Business Leader & Enterprise Business Digital Transformation Director",
+        "company": "AWS",
+        "bio": "Driving digital transformation and cloud adoption across Africa. Expert in enterprise cloud strategy and business innovation at AWS.",
+        "expertise": [
+          "Cloud Computing",
+          "Digital Transformation",
+          "Enterprise Strategy",
+          "AWS"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/kayode",
+        "type": "Tech Leader",
+        "session": "Cloud & AI"
+      },
+      {
+        "name": "Joseph Kweku Assan",
+        "title": "Director of the Sustainable International Development Program",
+        "bio": "Expert in sustainable development, international cooperation, and development policy. Focusing on AI for sustainable development goals.",
+        "expertise": [
+          "Sustainable Development",
+          "International Development",
+          "Policy",
+          "Development Economics"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/festus-Eo2UTR-z9kXSz",
+        "type": "Academia",
+        "session": "AI for Development"
+      },
+      {
+        "name": "Paul Crafer",
+        "title": "AI Assurance and Audit Services Lead",
+        "region": "EMEA",
+        "credentials": "FCHA, SWE",
+        "bio": "Specialist in AI assurance, audit, and governance. Expert in ensuring AI systems meet regulatory and ethical standards across EMEA.",
+        "expertise": [
+          "AI Assurance",
+          "AI Audit",
+          "AI Governance",
+          "Compliance"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/paul",
+        "type": "Consultant",
+        "session": "AI Audit & Assurance"
+      },
+      {
+        "name": "George Adjabeng",
+        "title": "Head of Innovation",
+        "company": "Société Générale",
+        "bio": "Leading innovation initiatives in banking and finance. Driving digital transformation and fintech solutions in the banking sector.",
+        "expertise": [
+          "Banking Innovation",
+          "FinTech",
+          "Digital Banking",
+          "Financial Services"
+        ],
+        "linkedin": "https://www.linkedin.com/in/george-adjebeng-09423a27/",
+        "type": "Industry",
+        "session": "AI in Finance"
+      },
+      {
+        "name": "Dr. Tim Schneller",
+        "title": "Founder",
+        "company": "CollabInspire",
+        "roles": ["B2B Strategy & AI Partnerships", "Lecturer"],
+        "bio": "Expert in B2B strategy, AI partnerships, and business collaboration. Educator and strategic advisor to tech companies.",
+        "expertise": [
+          "B2B Strategy",
+          "AI Partnerships",
+          "Business Strategy",
+          "Education"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/tim",
+        "type": "Consultant",
+        "session": "AI Partnerships"
+      },
+      {
+        "name": "Edward Aikins",
+        "title": "Senior Manager",
+        "company": "Deloitte",
+        "bio": "Consulting expert in business transformation, digital strategy, and organizational change. Helping African businesses leverage AI.",
+        "expertise": [
+          "Business Consulting",
+          "Digital Transformation",
+          "Strategy",
+          "Change Management"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/edward",
+        "type": "Consultant",
+        "session": "Digital Transformation"
+      },
+      {
+        "name": "Yaw (Oduro) Nsarkoh",
+        "title": "Strategic Adviser, Professional Coach and Director",
+        "bio": "Strategic advisor and executive coach. Expert in leadership development and organizational strategy for tech organizations.",
+        "expertise": [
+          "Strategic Advisory",
+          "Executive Coaching",
+          "Leadership",
+          "Organizational Strategy"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/yaw",
+        "type": "Consultant",
+        "session": "Leadership in AI"
+      },
+      {
+        "name": "Akwasi Obeng-Adjei",
+        "title": "Executive: Risk (Business Bank)",
+        "company": "Absa Group Limited",
+        "credentials": "MBA (Stellenbosch)",
+        "bio": "Risk management expert in business banking. Specialist in financial risk and AI risk assessment in banking.",
+        "expertise": [
+          "Risk Management",
+          "Business Banking",
+          "Financial Risk",
+          "Banking"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/akwesi",
+        "type": "Industry",
+        "session": "AI Risk Management"
+      },
+      {
+        "name": "Richard Quainoo",
+        "title": "Senior AI & Data Consultant",
+        "company": "Deloitte",
+        "bio": "Expert in AI and data analytics consulting. Helping organizations leverage AI for business value and competitive advantage.",
+        "expertise": [
+          "AI Consulting",
+          "Data Analytics",
+          "Machine Learning",
+          "Business Intelligence"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/richard",
+        "type": "Consultant",
+        "session": "AI Analytics"
+      },
+      {
+        "name": "Joshua Odoi",
+        "title": "Intel AI Mastercoach",
+        "other": "Innovation & Tech Lead - BUILD Weekends",
+        "bio": "AI education and innovation facilitator. Leading AI training and community building initiatives across Ghana.",
+        "expertise": [
+          "AI Education",
+          "Tech Innovation",
+          "Mentorship",
+          "Community Building"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/josh",
+        "type": "Educator",
+        "session": "AI Education"
+      },
+      {
+        "name": "Prof. Kobby Mensah",
+        "title": "CEO",
+        "company": "GTDC",
+        "bio": "Leading digital transformation and technology development. Expert in technology strategy and innovation management.",
+        "expertise": [
+          "Digital Transformation",
+          "Technology Leadership",
+          "Innovation Strategy",
+          "Education"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/prof",
+        "type": "Academia",
+        "session": "Digital Innovation"
+      },
+      {
+        "name": "Ayo Jones",
+        "title": "AI Advisor & Keynote Speaker",
+        "other": "Creator of the SHiFT System™",
+        "bio": "AI advisor, keynote speaker, and systems thinker. Helping organizations transform through AI adoption and change management.",
+        "expertise": [
+          "AI Advisory",
+          "Keynote Speaking",
+          "Systems Thinking",
+          "Transformation"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/ayo",
+        "type": "Consultant",
+        "session": "AI Transformation"
+      },
+      {
+        "name": "Eugene Allotey",
+        "title": "Co-Founder & COO",
+        "company": "Creative Bibini Ltd",
+        "other": "Dev Partner at FOCAS",
+        "bio": "Tech entrepreneur and development partner. Expert in software development and strategic partnerships in the tech ecosystem.",
+        "expertise": [
+          "Tech Entrepreneurship",
+          "Software Development",
+          "Partnerships",
+          "Startup Operations"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/eugene",
+        "type": "Tech Entrepreneur",
+        "session": "Startup Growth"
+      },
+      {
+        "name": "Vincent Tetteh",
+        "title": "Senior DevOps & AI Infrastructure Engineer",
+        "company": "Standard Chartered",
+        "bio": "Expert in DevOps and AI infrastructure. Building scalable AI systems and cloud infrastructure for enterprise applications.",
+        "expertise": [
+          "DevOps",
+          "AI Infrastructure",
+          "Cloud Engineering",
+          "MLOps"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/vincent",
+        "type": "Tech Leader",
+        "session": "AI Infrastructure"
+      },
+      {
+        "name": "Festus Asare-Yeboah",
+        "title": "Cloud Architect, Data Engineering & Machine Learning",
+        "company": "Google",
+        "bio": "Cloud architecture and ML engineering expert at Google. Specialist in data engineering and ML infrastructure for African organizations.",
+        "expertise": [
+          "Cloud Architecture",
+          "Data Engineering",
+          "MLOps",
+          "Google Cloud"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/festus",
+        "type": "Tech Leader",
+        "session": "Google Cloud AI"
+      },
+      {
+        "name": "Dr. G. Ayorkor Korsah",
+        "title": "Head of Computer Science",
+        "institution": "Ashesi University",
+        "bio": "Leading AI and robotics education in Ghana. Expert in artificial intelligence, robotics, and computer science education at Ashesi University.",
+        "expertise": [
+          "Artificial Intelligence",
+          "Robotics",
+          "Computer Science Education",
+          "AI Research"
+        ],
+        "linkedin": "https://www.linkedin.com/in/g-ayorkor-korsah-1b09183/",
+        "type": "Academia",
+        "session": "AI Research"
+      },
+      {
+        "name": "Abena Nyamesem",
+        "title": "Environmental & Sustainability Consultant",
+        "organization": "GIFEC",
+        "credentials": "Esq",
+        "bio": "Expert in environmental sustainability, policy, and ESG frameworks. Legal expert in environmental law and sustainable development.",
+        "expertise": [
+          "Environmental Policy",
+          "Sustainability",
+          "ESG",
+          "Environmental Law"
+        ],
+        "linkedin": "https://www.linkedin.com/in/abena-nyamesem-6a40b431/",
+        "type": "Consultant",
+        "session": "AI & Sustainability"
+      },
+      {
+        "name": "Naa Adoley Azu",
+        "title": "Public Affairs | Product Policy | Responsible AI Enablement",
+        "specialty": "Bridging Law, Government & Industry",
+        "bio": "Expert in AI policy, public affairs, and responsible AI enablement. Bridging the gap between law, government, and industry for AI governance.",
+        "expertise": [
+          "AI Policy",
+          "Public Affairs",
+          "Responsible AI",
+          "Government Relations"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/naa",
+        "type": "Policy Expert",
+        "session": "AI Policy"
+      },
+      {
+        "name": "Tom-Chris Emewulu",
+        "title": "Founder & President",
+        "organization": "Stars From All Nations (SFAN)",
+        "bio": "Empowering youth through education and entrepreneurship. Leading initiatives for youth development and skills training across Africa.",
+        "expertise": [
+          "Youth Empowerment",
+          "Education",
+          "Entrepreneurship",
+          "Leadership Development"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/tom",
+        "type": "Social Entrepreneur",
+        "session": "Youth & AI"
+      },
+      {
+        "name": "Bertha Akua Asare",
+        "title": "Senior Privacy & Information Security Analyst",
+        "institution": "Brandeis University",
+        "specialty": "Responsible AI, Cybersecurity & Governance",
+        "bio": "Expert in privacy, security, and AI governance. Specializing in responsible AI and information security frameworks.",
+        "expertise": [
+          "Privacy",
+          "Information Security",
+          "AI Governance",
+          "Cybersecurity"
+        ],
+        "profileUrl": "https://panafricanaisummit.com/bertha",
+        "type": "Academia",
+        "session": "AI Security & Privacy"
       }
     ]
   },
 
   "speakers": {
-    "intro": "We're looking for experts to share their knowledge at the 2026 summit. Here's what you need to know:",
-
+    "intro": "Interested in speaking at the Pan African AI Summit? Here's what you need to know:",
     "focus_areas": [
       "Ethical AI Implementation",
       "LLMs for African Languages",
@@ -257,21 +911,21 @@
       "AI Policy & Governance",
       "Startup Success Stories",
       "Investment in African AI",
-      "Cross-border Collaboration"
+      "Cross-border Collaboration",
+      "AI for Climate Action",
+      "Responsible AI Frameworks"
     ],
-
     "application": {
       "url": "https://panafricanaisummit.com/call-for-speakers",
       "requirements": [
         "Full name and title",
-        "Organization",
-        "Abstract (250 words)",
-        "Bio (150 words)",
-        "Session format preference",
-        "Relevant experience"
+        "Organization affiliation",
+        "Abstract (250 words max)",
+        "Speaker bio (150 words)",
+        "Session format preference (Keynote, Panel, Workshop)",
+        "Relevant experience and past speaking engagements"
       ]
     },
-
     "timeline": {
       "call_opens": "2026-01-01",
       "early_deadline": "2026-03-31",
@@ -279,91 +933,124 @@
       "notifications_start": "2026-04-01",
       "final_confirmation": "2026-08-01"
     },
-
     "faqs": [
       {
         "id": "speaker_1",
         "question": "How can I apply to speak at the 2026 Summit?",
-        "answer": "We are currently looking for experts in Ethical AI, LLMs for African languages, and AI applications in healthcare, agritech, and edutech. You can submit your abstract and bio through the 'Call for Speakers' link at panafricanaisummit.com."
+        "answer": "We are currently looking for experts in Ethical AI, LLMs for African languages, and AI applications in healthcare, agritech, and edutech. You can submit your abstract and bio through the 'Call for Speakers' link at panafricanaisummit.com/call-for-speakers."
       },
       {
         "id": "speaker_2",
         "question": "What are the key focus areas for sessions?",
-        "answer": "For 2026, we are specifically prioritising Youth Empowerment, Policy Development, Economic Impact, Partnerships, and Skills Development."
+        "answer": "For 2026, we are specifically prioritising Youth Empowerment, Policy Development, Economic Impact, Partnerships, and Skills Development. We also welcome proposals on emerging AI topics relevant to Africa."
+      },
+      {
+        "id": "speaker_3",
+        "question": "Will speakers receive any compensation?",
+        "answer": "While speaking slots are voluntary, selected speakers receive complimentary VIP access to the summit, networking opportunities with industry leaders, and recognition across our media channels. Travel and accommodation may be covered for keynotes and panelists."
       }
     ]
   },
 
   "sponsorship": {
     "intro": "Join us as a sponsor or partner and align your brand with Africa's AI future. Here are the opportunities available:",
-
     "packages": [
       {
         "name": "Gold Partnership",
         "price": 5000,
         "currency": "USD",
         "benefits": [
-          "Keynote speaking slot",
-          "Exhibition booth (3x3m)",
-          "Logo on all marketing materials",
-          "10 VIP tickets",
-          "Featured in press releases"
-        ]
+          "Keynote speaking slot (20 mins)",
+          "Exhibition booth (3x3m) in prime location",
+          "Logo on all marketing materials (website, app, banners)",
+          "10 VIP tickets with gala dinner access",
+          "Featured in press releases and media coverage",
+          "Branding in summit program booklet (full page)",
+          "Social media promotion across all channels",
+          "Post-event attendee list (opt-in)"
+        ],
+        "available": 3
       },
       {
         "name": "Silver Partnership",
         "price": 2500,
         "currency": "USD",
         "benefits": [
-          "Panel speaking slot",
+          "Panel speaking slot (15 mins)",
           "Exhibition booth (2x2m)",
-          "Logo on website and app",
-          "5 VIP tickets"
-        ]
+          "Logo on website and event app",
+          "5 VIP tickets",
+          "Half-page ad in program booklet",
+          "Social media shoutout",
+          "Logo on event signage"
+        ],
+        "available": 5
       },
       {
         "name": "Bronze Partnership",
         "price": 1000,
         "currency": "USD",
         "benefits": [
-          "Recognition during sessions",
+          "Recognition during opening/closing sessions",
           "Logo in program booklet",
-          "3 general admission tickets"
-        ]
+          "3 general admission tickets",
+          "Company name on website",
+          "Digital swag bag inclusion"
+        ],
+        "available": 10
       },
       {
         "name": "Food & Beverage Sponsor",
         "price": 1000,
         "currency": "USD",
         "benefits": [
-          "Branding at refreshment stations",
+          "Branding at all refreshment stations",
           "Mention during breaks",
-          "2 VIP tickets"
-        ]
+          "2 VIP tickets",
+          "Logo on menu cards",
+          "Branded napkins and cups (optional)"
+        ],
+        "available": 2
+      },
+      {
+        "name": "Startup Track Sponsor",
+        "price": 1500,
+        "currency": "USD",
+        "benefits": [
+          "Naming rights for AI Pitch Competition",
+          "Meet the startups session",
+          "5 VIP tickets",
+          "Logo on all startup-related materials",
+          "Opportunity to judge pitch competition"
+        ],
+        "available": 2
       }
     ],
-
     "contact": {
       "email": "sponsorships@panafricanaisummit.com",
-      "whatsapp": "+233 XX XXX XXXX",
-      "phone": "+233 XX XXX XXXX",
+      "whatsapp": "+233 20 123 4567",
+      "phone": "+233 30 123 4567",
       "hours": "Monday-Friday, 9 AM - 5 PM GMT"
     },
-
     "documents": {
-      "prospectus": "https://panafricanaisummit.com/sponsorship-prospectus-2026.pdf"
+      "prospectus": "https://panafricanaisummit.com/sponsorship-prospectus-2026.pdf",
+      "media_kit": "https://panafricanaisummit.com/media-kit-2026.pdf"
     },
-
     "faqs": [
       {
         "id": "sponsor_1",
         "question": "Why should our organisation sponsor PAAIS 2026?",
-        "answer": "This is a high-visibility opportunity to align your brand with the future of African tech. Benefits include direct access to 1,000+ delegates, networking with government ministers and tech giants, and participation in the $1 Billion Ghana-UAE Innovation Hub discussions."
+        "answer": "This is a high-visibility opportunity to align your brand with the future of African tech. Benefits include direct access to 1,000+ delegates, networking with government ministers and tech giants (Google, AWS, MTN), and participation in shaping Africa's AI future. Sponsors also gain exclusive access to the $1 Billion Ghana-UAE Innovation Hub discussions."
       },
       {
         "id": "sponsor_2",
         "question": "What sponsorship tiers are available?",
-        "answer": "We offer Gold ($5,000), Silver ($2,500), Bronze ($1,000), and Food & Beverage ($1,000) sponsorship tiers. Custom strategic partnerships are also available."
+        "answer": "We offer Gold ($5,000), Silver ($2,500), Bronze ($1,000), Food & Beverage ($1,000), and Startup Track ($1,500) sponsorship tiers. Custom strategic partnerships are also available for organizations wanting deeper engagement."
+      },
+      {
+        "id": "sponsor_3",
+        "question": "Can we customize a sponsorship package?",
+        "answer": "Absolutely! We work with sponsors to create customized packages that align with your specific goals and budget. Contact our partnerships team to discuss tailored opportunities."
       }
     ]
   },
@@ -373,17 +1060,18 @@
     "fee": "Free",
     "url": "https://panafricanaisummit.com/register-2026",
     "capacity": 1000,
+    "virtual_capacity": 5000,
     "note": "Free participation to democratize AI knowledge, but registration is required as capacity is limited.",
-
     "includes": [
-      "Full access to all sessions",
-      "Networking opportunities",
-      "Digital conference materials",
+      "Full access to all sessions (in-person or virtual)",
+      "Networking opportunities with attendees and speakers",
+      "Digital conference materials and presentations",
       "Certificate of participation",
-      "Lunch and refreshments (limited availability)"
+      "Lunch and refreshments (in-person, limited availability)",
+      "Access to the event networking app",
+      "Post-event recording access (90 days)"
     ],
-
-    "instructions": "Early registration is recommended as seats are limited to 1,000 attendees."
+    "instructions": "Early registration is strongly recommended as seats are limited to 1,000 in-person attendees. Virtual registration is unlimited but requires sign-up. Registration closes on September 15, 2026 or when capacity is reached."
   },
 
   "qa": {
@@ -395,30 +1083,35 @@
       "Sponsorship packages",
       "Accommodation",
       "Travel information",
-      "Agenda details"
+      "Agenda details",
+      "Organizers and partners",
+      "Speakers and their sessions"
     ],
-
     "examples": [
       "What are the dates for the summit?",
       "How do I register?",
       "Can students attend?",
       "Is there a virtual option?",
       "What topics are you looking for speakers?",
-      "How much does sponsorship cost?"
+      "How much does sponsorship cost?",
+      "Who is organizing the event?",
+      "Tell me about Darlington Akogo"
     ],
-
     "fallback": "I couldn't find an answer to that question. Would you like to connect to a human representative or explore other topics?",
-
     "contact_human": {
       "option": "Connect to Human",
-      "action": "email:team@panafricanaisummit.com"
+      "action": "email:team@panafricanaisummit.com",
+      "response_time": "Within 24 hours"
     }
   },
 
   "metadata": {
     "version": "2.0",
-    "last_updated": "2025-12-14",
+    "last_updated": "2026-04-01",
     "data_source": "PanAfrican AI Summit Official",
-    "language": "en"
+    "language": "en",
+    "total_speakers": 36,
+    "total_sponsor_packages": 5,
+    "next_update": "2026-05-01"
   }
 }
