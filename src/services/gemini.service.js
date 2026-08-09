@@ -35,7 +35,10 @@ class GeminiService {
       apiKey: process.env.GEMINI_API_KEY,
     });
 
-    this.modelName = "gemini-2.0-flash-exp";
+    // Use the "-latest" alias instead of pinning a dated/experimental model
+    // id - gemini-2.0-flash-exp was retired and started 404ing silently,
+    // with every request falling back to the generic canned response.
+    this.modelName = "gemini-flash-latest";
     console.log(`📡 Using model: ${this.modelName}`);
 
     // Load all data from JSON
