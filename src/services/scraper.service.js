@@ -125,12 +125,20 @@ async function scrapeAll() {
   ];
 
   const pages = [];
+  const notFound = [];
   for (const p of ordered) {
     try {
       const result = await scrapePath(p);
       if (result) pages.push(result);
     } catch (err) {
-      console.warn(`[Scraper] Failed to scrape ${p}: ${err.message}`);
+      // The sitemap still lists pages the site itself has since taken down
+      // (old speaker microsites, etc). A 404 there is an expected miss, not
+      // a failure worth alarming logs over - only warn on real errors.
+      if (err.message.includes("HTTP 404")) {
+        notFound.push(p);
+      } else {
+        console.warn(`[Scraper] Failed to scrape ${p}: ${err.message}`);
+      }
     }
     await new Promise((r) => setTimeout(r, 300)); // be polite to their server
   }
@@ -138,7 +146,10 @@ async function scrapeAll() {
   const cache = { scrapedAt: new Date().toISOString(), pages };
   fs.writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2));
   console.log(
-    `[Scraper] Cached ${pages.length}/${ordered.length} pages from panafricanaisummit.com`,
+    `[Scraper] Cached ${pages.length}/${ordered.length} pages from panafricanaisummit.com` +
+      (notFound.length
+        ? ` (${notFound.length} sitemap entries are 404 - stale listing, not an error: ${notFound.join(", ")})`
+        : ""),
   );
   return cache;
 }
