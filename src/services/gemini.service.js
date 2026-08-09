@@ -11,6 +11,17 @@ const summitDataPath = path.join(
 );
 const summitData = JSON.parse(fs.readFileSync(summitDataPath, "utf8"));
 
+// Strips honorifics ("Prof.", "Dr.", "Hon.") and trailing credentials
+// (", FCIB", ", MBA") so a query like "who is Jerry John Kponyo" still
+// matches a speaker stored as "Prof. Jerry John Kponyo".
+function normalizeSpeakerName(name) {
+  return name
+    .split(",")[0]
+    .replace(/^(prof\.?|dr\.?|hon\.?|mr\.?|mrs\.?|ms\.?)\s+/i, "")
+    .trim()
+    .toLowerCase();
+}
+
 class GeminiService {
   constructor() {
     if (!process.env.GEMINI_API_KEY) {
@@ -486,7 +497,7 @@ class GeminiService {
 
     return allSpeakers.find(
       (speaker) =>
-        speaker.name.toLowerCase().includes(searchLower) ||
+        normalizeSpeakerName(speaker.name).includes(searchLower) ||
         (speaker.expertise &&
           speaker.expertise.some((e) =>
             e.toLowerCase().includes(searchLower),
@@ -506,7 +517,7 @@ class GeminiService {
     ];
 
     for (const speaker of allSpeakers) {
-      if (lowerMsg.includes(speaker.name.toLowerCase())) {
+      if (lowerMsg.includes(normalizeSpeakerName(speaker.name))) {
         let response = `🎤 **${speaker.name}**\n\n`;
         response += `**Title:** ${speaker.title}`;
         if (speaker.company) response += ` at ${speaker.company}`;
