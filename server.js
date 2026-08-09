@@ -27,9 +27,24 @@ app.use("/api/", limiter);
 
 // Import routes
 const botRoutes = require("./src/routes/bot_routes");
+const { scrapeAll } = require("./src/services/scraper.service");
 
 // Routes
 app.use("/api/bot", botRoutes);
+
+// Keep the bot's knowledge of panafricanaisummit.com fresh without any paid
+// search/browsing API - just periodically re-fetch and re-parse the site.
+const CONTENT_REFRESH_MS =
+  Number(process.env.CONTENT_REFRESH_INTERVAL_MS) || 6 * 60 * 60 * 1000; // 6 hours
+
+scrapeAll().catch((err) =>
+  console.error("[Scraper] Initial scrape failed:", err.message),
+);
+setInterval(() => {
+  scrapeAll().catch((err) =>
+    console.error("[Scraper] Scheduled scrape failed:", err.message),
+  );
+}, CONTENT_REFRESH_MS);
 
 // Health check endpoint
 app.get("/health", (req, res) => {

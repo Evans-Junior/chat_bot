@@ -1,6 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const fs = require("fs");
 const path = require("path");
+const { getScrapedContext } = require("./scraper.service");
 require("dotenv").config();
 
 // Load summit data
@@ -38,6 +39,11 @@ class GeminiService {
     this.summit = summitData.summit;
     this.thematicAreas = summitData.thematic_areas;
     this.participation = summitData.participation;
+    this.mission = summitData.mission;
+    this.corePillars = summitData.core_pillars;
+    this.keyObjectives = summitData.key_objectives;
+    this.achievements = summitData.achievements;
+    this.upcomingInitiatives = summitData.upcoming_initiatives;
 
     console.log(
       `✅ Loaded ${this.speakers.all_speakers?.length || 0} speakers`,
@@ -222,6 +228,15 @@ class GeminiService {
     });
     response += `\n`;
 
+    if (org.institutional_partners) {
+      response += `**🌐 Institutional Partners:**\n`;
+      org.institutional_partners.forEach((p) => {
+        response += `• **${p.name}** - ${p.role}\n`;
+        response += `  ${p.description}\n`;
+      });
+      response += `\n`;
+    }
+
     response += `**📞 Contact:** ${org.contact.email} | ${org.contact.website}\n\n`;
     response += `This incredible collaboration brings together the best minds and organizations to make PAAIS 2026 a success! 🌟`;
     return response;
@@ -367,24 +382,24 @@ class GeminiService {
 
   getSummitOverview() {
     let response = `🌍 **Pan African AI Summit (PAAIS) Overview**\n\n`;
-    response += `${this.summit.mission}\n\n`;
+    response += `${this.mission}\n\n`;
     response += `**📌 Key Details:**\n`;
     response += `• **Next Summit:** ${this.summit.next_summit.dates} at ${this.summit.next_summit.venue}\n`;
     response += `• **Theme:** ${this.eventDetails.theme}\n`;
-    response += `• **Core Pillars:** ${this.summit.core_pillars.join(", ")}\n\n`;
+    response += `• **Core Pillars:** ${this.corePillars.join(", ")}\n\n`;
 
     response += `**🎯 Key Objectives:**\n`;
-    this.summit.key_objectives.forEach((obj) => {
+    this.keyObjectives.forEach((obj) => {
       response += `• ${obj}\n`;
     });
 
     response += `\n**🏆 Achievements:**\n`;
-    this.summit.achievements.slice(0, 3).forEach((ach) => {
+    this.achievements.slice(0, 3).forEach((ach) => {
       response += `• ${ach}\n`;
     });
 
     response += `\n**🚀 Upcoming Initiatives:**\n`;
-    this.summit.upcoming_initiatives.slice(0, 3).forEach((init) => {
+    this.upcomingInitiatives.slice(0, 3).forEach((init) => {
       response += `• ${init}\n`;
     });
 
@@ -730,10 +745,10 @@ What would you like to know? 🌟`;
 - **Registration:** FREE at ${this.registration.url}
 
 ## MISSION:
-${this.summit.mission}
+${this.mission}
 
 ## CORE PILLARS:
-${this.summit.core_pillars.map((p) => `• ${p}`).join("\n")}
+${this.corePillars.map((p) => `• ${p}`).join("\n")}
 
 ## KEY THEMATIC AREAS:
 ${this.thematicAreas.map((area) => `• ${area.category}: ${area.topics.slice(0, 2).join(", ")}`).join("\n")}
@@ -756,7 +771,12 @@ Keep responses:
 - Start with appropriate emojis
 - End with an engaging question
 
-If you don't know something, suggest contacting info@panafricanaisummit.africa`;
+If you don't know something, suggest contacting info@panafricanaisummit.africa
+
+## LIVE WEBSITE CONTENT (scraped periodically from panafricanaisummit.com):
+${getScrapedContext() || "(no live snapshot available yet)"}
+
+If the live website content above conflicts with the summary sections earlier in this prompt, trust the live website content — it is fresher.`;
   }
 
   // ============================================
